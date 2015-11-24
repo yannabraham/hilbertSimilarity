@@ -1,0 +1,12 @@
+Package: hilbertSimilarity
+Type: Package
+Title: Hilbert Similarity Index for High Dimensional Data
+Version: 0.1
+Date: 2015-11-06
+Authors@R: c(person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre')),
+             person('Marilisa','Neri',email='marilisa.neri@gmail.com',role='aut'))
+Description: Use a 1D projection of high-dimensional space to compute sample similarity & identify sample differences
+LinkingTo: Rcpp
+Imports: Rcpp, entropy
+License: CC BY-NC-SA 3.0
+LazyData: TRUE
