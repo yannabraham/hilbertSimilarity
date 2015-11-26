@@ -8,5 +8,5 @@ Authors@R: c(person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut'
 Description: Use a 1D projection of high-dimensional space to compute sample similarity & identify sample differences
 LinkingTo: Rcpp
 Imports: Rcpp, entropy
-License: CC BY-NC-SA 3.0
+License: CC BY-NC-SA 4.0
 LazyData: TRUE
