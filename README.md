@@ -10,4 +10,4 @@ devtools::install_github('yannabraham/hilbertSimilarity')
 
 ## Travis Build Status
 
-[![Travis-CI Build Status](https://travis-ci.org/yannabraham/bodenmiller.svg?branch=master)](https://travis-ci.org/yannabraham/bodenmiller)
+[![Travis-CI Build Status](https://travis-ci.org/yannabraham/hilbertSimilarity.svg?branch=master)](https://travis-ci.org/yannabraham/hilbertSimilarity)
