@@ -10,3 +10,5 @@ LinkingTo: Rcpp
 Imports: Rcpp, entropy
 License: CC BY-NC-SA 4.0
 LazyData: TRUE
+URL: http://github.com/yannabraham/hilbertSimilarity
+BugReports: http://github.com/yannabraham/hilbertSimilarity/issues
