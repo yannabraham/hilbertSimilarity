@@ -25,7 +25,7 @@ show.cut <- function(cuts, type = 'all', local = FALSE) {
   } else {
     type <- types[pmatch(type,types)]
   }
-  old.par <- par()
+  old.par <- par(no.readonly =TRUE)
   par(mfrow=n2mfrow(length(cuts)+1),
       mar=c(1,1,3,1))
   ksink <- lapply(names(cuts),function(cur.ch) {
