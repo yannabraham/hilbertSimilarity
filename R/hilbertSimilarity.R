@@ -7,6 +7,7 @@
 #' the Jensen Shannon distance between the 2 probability vectors.
 #'
 #' @example examples/example.js.dist.R
+#'
 #' @docType package
-#' @name Radviz
+#' @name hilbertSimilarity
 NULL
