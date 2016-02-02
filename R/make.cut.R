@@ -6,7 +6,9 @@
 #' @param mat the matrix to cut
 #' @param n the number of cuts to generate (defaults to 5)
 #' @param count.lim the minimum number of counts to consider for density (defaults to 40)
+#'
 #' @return a list of of cuts for each column in \code{mat}, see \emph{details}
+#'
 #' @details the fixed limits correspond to 5 equally spaced values over the range of the column.
 #'    the combined limits take the local minima and maxima determined using the \code{\link{localMinima}} function,
 #'    to adjust the limits using the following algorithm:
@@ -32,22 +34,11 @@
 #'        \item \code{maxima} the local maxima detected in the data
 #'        \item \code{combined} the cuts defined using a combination of fixed positions, local minima and local maxima
 #'      }
-#' @examples
-#' # generate a random 3D matrix
-#' mat <- matrix(rnorm(300),ncol=3)
-#' dimnames(mat)[[2]] <- LETTERS[1:3]
-#' # generate 2 bins with a minimum bin size of 5
-#' cuts <- make.cut(mat,n=3,count.lim=5)
-#' par(mfrow=n2mfrow(ncol(mat)),
-#' mar=c(1,1,3,1))
-#' ksink <- lapply(dimnames(mat)[[2]],function(cur.ch) {
-#'    plot(cuts[[cur.ch]]$dens,main=paste('Combined Cuts for',cur.ch))
-#'    abline(v=cuts[[cur.ch]]$combined,lty=2,col=2)
-#'  }
-#' )
+#'
+#' @example examples/example.cut.R
+#'
 #' @author Yann Abraham
 #' @export
-
 make.cut <- function(mat,n=5,count.lim=40) {
   if(n<3) {
     stop('n should be greater than 2')
@@ -121,7 +112,7 @@ make.cut <- function(mat,n=5,count.lim=40) {
       mfdiff <- lapply(minch,function(x) abs(ach[-c(1,n)]-x))
       mfdiff <- do.call('cbind',mfdiff)
       # reset positions that are already adjusted
-      mfdiff[as.logical(moved[-c(1,n)]),] <- max(mfdiff)
+      mfdiff[as.logical(moved[-c(1,n)]),] <- d
     }
 
     # Now depending on whether we found a local minima,
@@ -131,7 +122,8 @@ make.cut <- function(mat,n=5,count.lim=40) {
     # that has not been moved yet?
     mfdiff <- lapply(maxch,function(x) abs(ach[-c(1,n)]-x))
     mfdiff <- do.call('cbind',mfdiff)
-    mfdiff[as.logical(moved[-c(1,n)]),] <- max(mfdiff)
+    mfdiff[as.logical(moved[-c(1,n)]),] <- d
+
     if(any(mfdiff<d)) {
       if(any(moved[-c(1,n)]==1)) {
         while(any(mfdiff<d) & length(ach)>3) {
@@ -152,7 +144,7 @@ make.cut <- function(mat,n=5,count.lim=40) {
           mfdiff <- lapply(maxch,function(x) abs(ach[-c(1,n)]-x))
           mfdiff <- do.call('cbind',mfdiff)
           # reset positions that are already adjusted
-          mfdiff[as.logical(moved[-c(1,n)]),] <- max(mfdiff)
+          mfdiff[as.logical(moved[-c(1,n)]),] <- d
         }
       } else {
         while(any(mfdiff<d)) {
@@ -178,7 +170,7 @@ make.cut <- function(mat,n=5,count.lim=40) {
           mfdiff <- lapply(maxch,function(x) abs(ach[-c(1,n)]-x))
           mfdiff <- do.call('cbind',mfdiff)
           # reset positions that are already adjusted
-          mfdiff[as.logical(moved[-c(1,n)]),] <- max(mfdiff)
+          mfdiff[as.logical(moved[-c(1,n)]),] <- d
         }
       }
     }
