@@ -7,8 +7,11 @@
 #'
 #' @param mat a matrix of counts, where rows correspond to sub-cubes and columns to samples
 #' @param pc a pseudo-count that is added to all samples to avoid divide-by-zero errors
+#'
 #' @return a S3 distance object
+#'
 #' @example examples/example.js.dist.R
+#'
 #' @author Yann Abraham
 #' @export
 js.dist <- function(mat,pc=0.0001) {

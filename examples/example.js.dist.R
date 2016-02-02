@@ -1,28 +1,63 @@
 # generate 3 samples over 5 dimensions
 # sample 1 and 2 are similar, sample 3 has an extra population
-my.samples <- lapply(LETTERS[1:3],function(x) {
+my.samples <- lapply(LETTERS[1:3],function(j) {
     # each sample has a different number of events
-    cur.mat <- matrix(rnorm(5*floor(runif(1)*10000)),ncol=5)
+    n <- floor(runif(1,0.5,0.8)*10000)
+    # matrix is random normal over 5 dimensions
+    cur.mat <- matrix(rnorm(5*n),ncol=5)
+    # rescale cur.mat to a [0,1] interval
+    cur.mat <- 3*(cur.mat-min(cur.mat))/diff(range(cur.mat))
     dimnames(cur.mat)[[2]] <- LETTERS[(length(LETTERS)-4):length(LETTERS)]
+    # select 30% of the points
+    cur.rws <- sample(n,round(n*0.3,0))
+    # select 2 columns at random
+    cur.cls <- sample(ncol(cur.mat),2)
+    # create an artificial sub population
+    cur.mat[cur.rws,cur.cls] <- 4*cur.mat[cur.rws,cur.cls]
     return(cur.mat)
   }
 )
 names(my.samples) <- LETTERS[1:3]
-# add an extra population to sample C
-my.samples[['C']] <- rbind(my.samples[['C']],
-                           matrix(rnorm(5*floor(runif(1)*100),2),ncol=5))
+
 # assemble a sample matrix
 my.samples.mat <- do.call('rbind',my.samples)
 my.samples.id <- lapply(names(my.samples),
                         function(cur.spl) rep(cur.spl,nrow(my.samples[[cur.spl]])))
 my.samples.id <- unlist(my.samples.id)
 
-# cut it
-my.cuts <- make.cut(my.samples.mat,n=5,count.lim=5)
-my.samples.cut <- do.cut(my.samples.mat,my.cuts,type='fixed')
+# Estimate the Hilbert order
+hilbert.order(my.samples.mat)
 
-# compute the hilbert index
+# Estimate the cut positions
+my.cuts <- make.cut(my.samples.mat,n=5,count.lim=5)
+
+# Visualize the cuts
+show.cut(my.cuts)
+
+# Cut the matrix & compute the hilbert index
+my.samples.cut <- do.cut(my.samples.mat,my.cuts,type='combined')
 system.time(my.samples.index <- do.hilbert(my.samples.mat,horder=4))
+
+# Visualize samples as density plots
+my.samples.dens <- density(my.samples.index)
+my.samples.dens$y <- (my.samples.dens$y-min(my.samples.dens$y))/diff(range(my.samples.dens$y))
+
+plot(my.samples.dens,col='grey3',lty=2)
+ksink <- lapply(names(my.samples),function(cur.spl) {
+    cat(cur.spl,'\n')
+    cur.dens <- density(my.samples.index[my.samples.id==cur.spl],
+                        bw=my.samples.dens$bw)
+    cur.dens$y <- (cur.dens$y-min(cur.dens$y))/diff(range(cur.dens$y))
+    lines(cur.dens$x,
+          cur.dens$y,
+          col=match(cur.spl,names(my.samples))+1)
+  }
+)
+legend('topright',
+       legend=names(my.samples),
+       co=seq(length(my.samples))+1,
+       pch=16,
+       bty='n' )
 
 # assemble a contingency table
 my.samples.table <- table(my.samples.index,my.samples.id)
