@@ -18,5 +18,5 @@
 #' @author Yann Abraham
 #' @export
 hilbert.order <- function(mat) {
-  floor(nrow(mat)^(1/ncol(mat)))
+  round(nrow(mat)^(1/ncol(mat)),0)
 }
