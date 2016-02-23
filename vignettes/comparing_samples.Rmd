@@ -1,0 +1,248 @@
+---
+title: "Comparing Samples using hilbertSimilarity"
+author: "Yann Abraham"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Comparing Samples using hilbertSimilarity}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r,echo=FALSE}
+library(knitr)
+opts_chunk$set(warning=FALSE,
+               fig.width=8,
+               fig.height=8,
+               fig.retina=1,
+               fig.keep='high',
+               fig.align='center')
+```
+
+# Introduction
+
+Comparing samples defined over a single dimension is a straightforward task that relies on standard, well established methods. Meanwhile distance between samples in high dimensional space remains a largely unexplored field. Available solutions rely on multivariate normal distributions, a condition that is both difficult to check and overlooking key behaviors in biological samples, where populations of interest often correspond to a small proportion (<1%) of all the points that have been measured.
+
+We have developped `hilbertSimilarity` to address the problem of sample similarity in mass cytometry where samples are measured over up to 100 dimensions, and where each sample contains a slightly different number of points (or cells). Our method first transforms each sample into a probability vector, by dividing each dimension into a fixed number of bins and by associating each cell to a specific multidimensional cube. The proportion of cells in each hypercube is characteristic of a given sample. To characterize an compare samples we use measures from Information Theory, since their interpretation in terms of similarity and complexity is straightforward.
+
+Samples can be compared using the same framework, to identify groups of cells that are significantly different between stimulations or phenotypes.
+
+To demonstrate the power of `hilbertSimilarity` we applied the method to a subset of the bodenmiller *et al.* dataset, comparing the effect of different stimulations and identifying groups of cells that are significantly affected by different treatments.
+
+Compared to other methods, `hilbertSimilarity` does not rely on expert-driven gating, or require any hypothesis about the number of populations that are present in the data. This makes it a powerful tool to quickly assess a dataset before using traditional methods, or when populations a not known *a priori*.
+
+# Installation
+
+`hilbertSimilarity` can be installed using the following command
+
+```
+devtools::install_github(yannabraham/hilbertSimilarity)
+```
+
+Once installed the package can be loaded using the standard `library` command.
+
+```{r}
+library(hilbertSimilarity)
+```
+
+# Loading some test data
+
+We first need data from the `bodenmiller` package:
+
+```{r}
+library(bodenmiller)
+data(refPhenoMat)
+data(untreatedPhenoMat)
+data(refFuncMat)
+data(untreatedFuncMat)
+data(refAnnots)
+refAnnots$Treatment <- 'reference'
+data(untreatedAnnots)
+fullAnnots <- rbind(refAnnots[,names(untreatedAnnots)],
+                    untreatedAnnots)
+fullAnnots$Treatment <- factor(fullAnnots$Treatment)
+fullAnnots$Treatment <- relevel(fullAnnots$Treatment,'reference')
+refMat <- cbind(refPhenoMat,refFuncMat)
+untreatedMat <- cbind(untreatedPhenoMat,
+                      untreatedFuncMat)
+fullMat <- rbind(refMat,untreatedMat)
+fullMat <- apply(fullMat,2,function(x) {
+    x[x<0] <- 0
+    return(x)
+  }
+)
+```
+
+In this dataset `r nrow(fullMat)` cells corresponding to `r nlevels(fullAnnots$Treatment)` have been measured over `r ncol(fullMat)` channels. Cells have been gated into `r nlevels(fullAnnots$Cells)` populations. The following treaments are compared to one another:
+
+```{r,echo=FALSE}
+nCellTreats <- with(fullAnnots,table(Cells,Treatment))
+pCellTreats <- apply(nCellTreats,2,function(x) x/sum(x))
+kable(nCellTreats)
+```
+
+The smallest cell population, `r names(which.min(100*table(fullAnnots$Cells)/nrow(fullAnnots)))`, corresponds to `r round(min(100*table(fullAnnots$Cells)/nrow(fullAnnots)),3)`% of the total cells.
+
+To demonstrate the use of `hilbertSimilarity` we will compare analyze the data at the treatment level.
+
+# Defining a grid to compare samples
+
+The `make.cut` function is used to prepare the grid that will be used to process the data matrix. It requires 2 arguments: the number of cuts (or bins), and the minimum number of cells to consider for a density. The latter depends on the technology and on the decision by the scientist running the analysis. For CyTOF we will require a population to correspond to at least 40 cells.
+
+## Choosing a number of bins
+
+The number of bins in each dimension is defined as follows:
+
+$$c^{d} < N$$
+
+Where $c$ is the number of bins, $d$ is the number of dimensions and $N$ is the total number of cells in the dataset. We chose the first integer $c$ that would generate at least 1 bin per cell. Because many combinations don't have any biological sense, the fraction of occupied bins will be lower than 1.
+
+$c$ can be computed easily using the following formula
+
+$$c = \max \left \{ \left \lfloor \sqrt[d]{N} \right \rfloor , 2 \right \}$$
+
+The formula has been implemented in the `hilbert.order` function. For our example, where $N$ is `r nrow(fullMat)` and $d$ is `r ncol(fullMat)`, $c$ is `r hilbert.order(fullMat)`. The number of cuts to generate is the number of required bins plus 1.
+
+After manual inspection, we used a $c$ of 3 to compute the cuts:
+
+```{r}
+nbins <- 3
+cuts <- make.cut(fullMat,
+                 n=nbins+1,
+                 count.lim=40)
+```
+
+## Reviewing the grid
+
+The `make.cut` function returns 2 cuts:
+
+ - `fixed` corresponds to equally sized bins over the range of the channel
+ - `combined` adjusts the bin size to the density of the channel
+
+The cuts can be visualized using the `show.cut` function:
+
+```{r,fig.height=8,fig.width=8}
+show.cut(cuts)
+```
+
+The green lines correspond to the `fixed` limits, the red lines correspond to the adjusted limits (when applicable). For cases like CD3, pSlp76 and ZAP70, it allows for a better separation between the positive and negative populations.
+
+## Applying the grid to the data
+
+Given a dataset and a grid, the `do.cut` function will assign each cell to a particular bin in every dimension.
+
+```{r}
+cutFullMat <- do.cut(fullMat,cuts,type='combined')
+```
+
+Effectively, each cell is now associated to a voxel, and each voxel is enriched for a particular cell type that corresponds to the the unique combination of dimensions and ranges it corresponds to.
+
+
+To uniquely identify each occupied voxel, one can compute a Hilbert index over the grid. The  after the dimensions have been ordered to better capture the 
+
+## Ordering the dimensions
+
+Intuitively, each voxel on the grid contains a specific cell type. In order for populations to be associated with **consecutive** specific bins, one must optimize the order of channels so that dimensions that are specific to a population are grouped together in the input matrix.
+
+A simple way to achieve this is to use the normalized mutual information between the dimensions to cluster them into meaningful groups:
+
+```{r}
+library(entropy)
+miFullMat <- matrix(NA,nrow=ncol(fullMat),ncol = ncol(fullMat) )
+for (i in seq(ncol(fullMat)-1)) {
+  for (j in seq(i+1,ncol(fullMat))) {
+    cur.tbl <- table(cutFullMat[,i],cutFullMat[,j])
+    nent <- 1-mi.empirical(cur.tbl)/entropy.empirical(cur.tbl)
+    miFullMat[i,j] <- miFullMat[j,i] <- nent
+  }
+}
+dimnames(miFullMat) <- list(colnames(fullMat),colnames(fullMat))
+hcFullMat <- hclust(as.dist(miFullMat))
+plot(hcFullMat)
+```
+
+After ordering the cut matrix using the normalized mutual information, it can be transformed into a Hilbert index using the `do.hilbert` function:
+
+```{r}
+hc <- do.hilbert(cutFullMat[,rev(hcFullMat$order)],2)
+```
+
+All cells are found in `r length(table(hc))` voxels out of the `r nbins^ncol(fullMat)` possible voxels defined over the initial `r ncol(fullMat)`-dimensional space (`r round(100*length(table(hc))/2^ncol(fullMat),2)`%).
+
+Using a Hilbert index to describe the grid has the advantage that consecutive index correspond to consecutive voxels inthe grid. Effectively it corresponds to a projection from *N* dimensions to a single one.
+
+As shown in the following plot, specific treatments are associated with changes in specific bins.
+
+```{r}
+library(RColorBrewer)
+treatment.cols <- setNames(brewer.pal(nlevels(fullAnnots$Treatment),'Set1'),
+                           levels(fullAnnots$Treatment))
+rescale <- function(x) return((x-min(x))/(diff(range(x))))
+dhc <- density(hc)
+
+plot(NULL,
+     xlim=c(0,max(hc)),
+     ylim=c(0,1),
+     xlab='Hilbert index',
+     ylab='scaled density',
+     type='n'
+)
+ksink <- lapply(levels(fullAnnots$Treatment),function(cur.treat) {
+    cur.dens <- density(hc[with(fullAnnots,Treatment==cur.treat)],
+                        bw = dhc$bw)
+    lines(cur.dens$x,rescale(cur.dens$y),
+          col=treatment.cols[cur.treat],
+          lty=2
+          )
+
+  }
+)
+lines(dhc$x,rescale(dhc$y),lty=2,col='grey12')
+legend(4.7e6,1,
+       legend=names(treatment.cols),
+       col=treatment.cols,
+       pch=16,
+       bty='n',
+       cex=0.7)
+```
+
+We can now use the Hilbert index to compare samples or conditions.
+
+# Comparing cells using Hilbert index
+
+With each cell now associated to a specific hilbert index, each sample can be described by computing the number of cells from a given sample that corresponds to a particular index. The resulting table can be visualized as a heat map:
+
+```{r}
+treatment.table <- with(fullAnnots,
+                        table(hc,Treatment))
+heatmap(asinh(5*treatment.table),
+        scale = 'none',
+        Colv = NA,
+        Rowv = NA,
+        labRow = NA,
+        col = colorRampPalette(c('white',blues9))(256),
+        margin = c(12,1)
+        )
+```
+
+In this experiment, each sample corresponds to a specific cell type and treatment: to compute the distance between samples we use a distance derived from information theory, the [Jensen-Shannon distance](https://www.cise.ufl.edu/~anand/sp06/jensen-shannon.pdf). This is done through the `js.dist` function. The resulting distance matrix can be used to compute a hierarchical cluster:
+
+```{r}
+treatment.dist <- js.dist(treatment.table)
+treatment.hc <- hclust(treatment.dist)
+```
+
+When ordering samples using `treatment.hc` we see patterns emerging:
+
+```{r}
+heatmap(asinh(5*treatment.table),
+        scale = 'none',
+        Colv = as.dendrogram(treatment.hc),
+        Rowv = NA,
+        labRow = NA,
+        col = colorRampPalette(c('white',blues9))(256),
+        margin = c(12,2)
+        )
+```
+
+Samples corresponding to **reference** and **BCR/FcR-XL** cluster together and have similar patterns, while **PMA/Ionomycin** and **vanadate** samples show strong differences with every other sample.
