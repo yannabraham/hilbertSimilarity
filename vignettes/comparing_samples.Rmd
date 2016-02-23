@@ -25,8 +25,6 @@ Comparing samples defined over a single dimension is a straightforward task that
 
 We have developped `hilbertSimilarity` to address the problem of sample similarity in mass cytometry where samples are measured over up to 100 dimensions, and where each sample contains a slightly different number of points (or cells). Our method first transforms each sample into a probability vector, by dividing each dimension into a fixed number of bins and by associating each cell to a specific multidimensional cube. The proportion of cells in each hypercube is characteristic of a given sample. To characterize an compare samples we use measures from Information Theory, since their interpretation in terms of similarity and complexity is straightforward.
 
-Samples can be compared using the same framework, to identify groups of cells that are significantly different between stimulations or phenotypes.
-
 To demonstrate the power of `hilbertSimilarity` we applied the method to a subset of the bodenmiller *et al.* dataset, comparing the effect of different stimulations and identifying groups of cells that are significantly affected by different treatments.
 
 Compared to other methods, `hilbertSimilarity` does not rely on expert-driven gating, or require any hypothesis about the number of populations that are present in the data. This makes it a powerful tool to quickly assess a dataset before using traditional methods, or when populations a not known *a priori*.
