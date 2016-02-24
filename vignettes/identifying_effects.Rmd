@@ -270,38 +270,3 @@ kable(sum.sig.cells)
 ```
 
 All the cells that are found significant are B cells, and they represent a large fraction of all B cells in the `r cur.treatment` sample, even when only taking the bootstrapped indices into account. 
-
-Is there a difference in profile between the significant and non-significant cells?
-
-```{r}
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(RColorBrewer)
-
-do.fan <- function(x,step=0.01) {
-  data.frame(ymin=quantile(x,probs=seq(0,1,step))[-length(seq(0,1,step))],
-             ymax=quantile(x,probs=seq(0,1,step))[-1],
-             id=seq(1,length(seq(step,1,step))),
-             percent=abs(seq(step,1,step)-0.5))
-}
-
-scale_fill_fan <- function(...) scale_fill_gradientn(colours=rev(brewer.pal(9,'Oranges')) )
-
-fullDf <- as.data.frame(cbind(fullAnnots,fullMat,'hilbert'=hc))
-fullDf <- tbl_df(fullDf)
-
-ggplot(fullDf %>% 
-         filter(Cells %in% rownames(sig.cells) & Treatment %in% c('reference','BCR/FcR-XL')) %>%
-         gather(channel,value,match(colnames(fullMat),colnames(fullDf))) %>%
-         mutate(isSignificant=hilbert %in% names(which(sig.res[,'BCR/FcR-XL'])) &
-                  Treatment!='reference') %>%
-         group_by(Treatment,Cells,isSignificant,channel) %>% 
-         do(do.fan(.$value)),
-       aes(x=channel,fill=percent,group=id))+
-  geom_ribbon(aes(ymin=ymin,ymax=ymax))+
-  facet_grid(Cells*isSignificant~Treatment)+
-  scale_fill_fan()+
-  theme(axis.text.x=element_text(angle=45,hjust=1))
-```
-

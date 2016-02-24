@@ -11,13 +11,15 @@ LinkingTo: Rcpp
 Imports:
     Rcpp,
     entropy
+Suggests:
+    knitr,
+    rmarkdown,
+    bodenmiller,
+    RColorBrewer,
+    abind
 License: CC BY-NC-SA 4.0
 LazyData: TRUE
 URL: http://github.com/yannabraham/hilbertSimilarity
 BugReports: http://github.com/yannabraham/hilbertSimilarity/issues
-Suggests:
-    knitr,
-    rmarkdown,
-    bodenmiller
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
