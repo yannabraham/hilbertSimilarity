@@ -36,6 +36,6 @@
 #' @export
 do.hilbert <- function(mat,horder) {
   horder <- log2(horder)
-  x1d <- hilbertSimilarity:::hilbertMapping(mat,horder)
+  x1d <- hilbertMapping(mat,horder)
   return(x1d)
 }
