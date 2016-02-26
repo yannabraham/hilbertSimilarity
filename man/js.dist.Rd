@@ -7,7 +7,7 @@
 js.dist(mat, pc = 1e-04)
 }
 \arguments{
-\item{mat}{a matrix of counts, where rows correspond to sub-cubes and columns to samples}
+\item{mat}{a matrix of counts, where rows correspond to samples and columns to sub-cubes}
 
 \item{pc}{a pseudo-count that is added to all samples to avoid divide-by-zero errors}
 }
@@ -92,7 +92,7 @@ heatmap(log10(my.samples.table+0.00001),
         scale='none')
 
 # compute the Jensen-Shannon distance
-my.samples.dist <- js.dist(my.samples.table)
+my.samples.dist <- js.dist(t(my.samples.table))
 my.samples.clust <- hclust(my.samples.dist)
 
 plot(my.samples.clust)

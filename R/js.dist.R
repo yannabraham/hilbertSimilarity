@@ -5,7 +5,7 @@
 #' datasets, we cut the space into sub-cubes, then count the number of events per cube. The resulting probability
 #' distributions can be compared using the Jensen-Shannon distance.
 #'
-#' @param mat a matrix of counts, where rows correspond to sub-cubes and columns to samples
+#' @param mat a matrix of counts, where rows correspond to samples and columns to sub-cubes
 #' @param pc a pseudo-count that is added to all samples to avoid divide-by-zero errors
 #'
 #' @return a S3 distance object
@@ -15,13 +15,13 @@
 #' @author Yann Abraham
 #' @export
 js.dist <- function(mat,pc=0.0001) {
-  dst <- matrix(rep(0,ncol(mat)^2),nrow=ncol(mat))
-  dimnames(dst) <- list(colnames(mat),
-                        colnames(mat))
-  for(i in seq(1,ncol(mat)-1)) {
-    for(j in seq(i+1,ncol(mat))) {
-      s1 <- entropy::freqs.empirical(mat[,i]+pc)
-      s2 <- entropy::freqs.empirical(mat[,j]+pc)
+  dst <- matrix(rep(0,nrow(mat)^2),nrow=nrow(mat))
+  dimnames(dst) <- list(rownames(mat),
+                        rownames(mat))
+  for(i in seq(1,nrow(mat)-1)) {
+    for(j in seq(i+1,nrow(mat))) {
+      s1 <- entropy::freqs.empirical(mat[i,]+pc)
+      s2 <- entropy::freqs.empirical(mat[j,]+pc)
       m <- (s1+s2)/2
       kl1 <- entropy::KL.plugin(s1,m)
       kl2 <- entropy::KL.plugin(s2,m)

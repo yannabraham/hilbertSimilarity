@@ -84,7 +84,7 @@ heatmap(log10(my.samples.table+0.00001),
         scale='none')
 
 # compute the Jensen-Shannon distance
-my.samples.dist <- js.dist(my.samples.table)
+my.samples.dist <- js.dist(t(my.samples.table))
 my.samples.clust <- hclust(my.samples.dist)
 
 plot(my.samples.clust)

@@ -226,7 +226,7 @@ heatmap(asinh(5*treatment.table),
 In this experiment, each sample corresponds to a specific cell type and treatment: to compute the distance between samples we use a distance derived from information theory, the [Jensen-Shannon distance](https://www.cise.ufl.edu/~anand/sp06/jensen-shannon.pdf). This is done through the `js.dist` function. The resulting distance matrix can be used to compute a hierarchical cluster:
 
 ```{r}
-treatment.dist <- js.dist(treatment.table)
+treatment.dist <- js.dist(t(treatment.table))
 treatment.hc <- hclust(treatment.dist)
 ```
 
