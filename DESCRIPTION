@@ -5,8 +5,12 @@ Version: 0.1
 Date: 2015-11-06
 Authors@R: c(person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre')),
              person('Marilisa','Neri',email='marilisa.neri@gmail.com',role='aut'))
-Description: Use a 1D projection of high-dimensional space to compute sample
-    similarity & identify sample differences
+Description: Quantifying similarity between high-dimensional single cell samples is challenging, and usually requires
+    some simplifying hypothesis to be made. By transforming the high dimensional space into a high dimensional grid,
+    the number of cells in each sub-space of the grid is characteristic of a given sample. Using a Hilbert curve
+    each sample can be visualized as a simple density plot, and the distance between samples can be calculated from
+    the distribution of cells using the Jensen-Shannon distance. Bins that correspond to significant differences
+    between samples can identified using a simple bootstrap procedure.
 LinkingTo: Rcpp
 Imports:
     Rcpp,
