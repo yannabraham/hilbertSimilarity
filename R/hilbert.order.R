@@ -8,10 +8,10 @@
 #' @details Assuming the matrix is fully random, there is no need to generate more voxels
 #'            (the combination of bins over all dimensions) than there are rows in the matrix. The number can be
 #'            derived from the following formula:
-#'            \eqn{c^{d} < N}
-#'            where $c$ is the number of bins, $d$ is the number of dimensions and $N$ is the total
-#'            number of cells in the dataset. $c$ can be computed easily using the following formula:
-#'            \eqn{c = \lfloor \sqrt[d]{N}}.
+#'            \deqn{c^{d} < N}{c^d < N}
+#'            where \emph{c} is the number of bins, \emph{d} is the number of dimensions and \emph{N} is the total
+#'            number of cells in the dataset. \emph{c} can be computed easily using the following formula:
+#'            \deqn{c = \lfloor \sqrt[d]{N}}{c=floor(N^(1/d))}.
 #'
 #' @example examples/example.cut.R
 #'
