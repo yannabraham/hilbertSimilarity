@@ -20,15 +20,17 @@ my.samples <- lapply(LETTERS[1:3],function(j) {
     n <- floor(runif(1,0.5,0.8)*10000)
     # matrix is random normal over 5 dimensions
     cur.mat <- matrix(rnorm(5*n),ncol=5)
-    # rescale cur.mat to a [0,1] interval
+    # rescale cur.mat to a [0,3] interval
     cur.mat <- 3*(cur.mat-min(cur.mat))/diff(range(cur.mat))
     dimnames(cur.mat)[[2]] <- LETTERS[(length(LETTERS)-4):length(LETTERS)]
-    # select 30\% of the points
-    cur.rws <- sample(n,round(n*0.3,0))
-    # select 2 columns at random
-    cur.cls <- sample(ncol(cur.mat),2)
-    # create an artificial sub population
-    cur.mat[cur.rws,cur.cls] <- 4*cur.mat[cur.rws,cur.cls]
+    if(j=='C') {
+      # select 30\% of the points
+      cur.rws <- sample(n,round(n*0.3,0))
+      # select 2 columns at random
+      cur.cls <- sample(ncol(cur.mat),2)
+      # create an artificial sub population
+      cur.mat[cur.rws,cur.cls] <- 4*cur.mat[cur.rws,cur.cls]
+    }
     return(cur.mat)
   }
 )
@@ -40,7 +42,7 @@ my.samples.id <- lapply(names(my.samples),
                         function(cur.spl) rep(cur.spl,nrow(my.samples[[cur.spl]])))
 my.samples.id <- unlist(my.samples.id)
 
-# Estimate the Hilbert order
+# Estimate the maximum required Hilbert order
 hilbert.order(my.samples.mat)
 
 # Estimate the cut positions
@@ -51,7 +53,7 @@ show.cut(my.cuts)
 
 # Cut the matrix & compute the hilbert index
 my.samples.cut <- do.cut(my.samples.mat,my.cuts,type='combined')
-system.time(my.samples.index <- do.hilbert(my.samples.mat,horder=4))
+system.time(my.samples.index <- do.hilbert(my.samples.cut,horder=4))
 
 # Visualize samples as density plots
 my.samples.dens <- density(my.samples.index)
