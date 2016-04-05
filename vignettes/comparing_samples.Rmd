@@ -135,7 +135,6 @@ cutFullMat <- do.cut(fullMat,cuts,type='combined')
 
 Effectively, each cell is now associated to a voxel, and each voxel is enriched for a particular cell type that corresponds to the the unique combination of dimensions and ranges it corresponds to.
 
-
 To uniquely identify each occupied voxel, one can compute a Hilbert index over the grid. The  after the dimensions have been ordered to better capture the 
 
 ## Ordering the dimensions
@@ -162,10 +161,11 @@ plot(hcFullMat)
 After ordering the cut matrix using the normalized mutual information, it can be transformed into a Hilbert index using the `do.hilbert` function:
 
 ```{r}
-hc <- do.hilbert(cutFullMat[,rev(hcFullMat$order)],2)
+col.order <- hcFullMat$labels[rev(hcFullMat$order)]
+hc <- do.hilbert(cutFullMat[,col.order],nbins)
 ```
 
-All cells are found in `r length(table(hc))` voxels out of the `r nbins^ncol(fullMat)` possible voxels defined over the initial `r ncol(fullMat)`-dimensional space (`r round(100*length(table(hc))/2^ncol(fullMat),2)`%).
+All cells are found in `r length(table(hc))` voxels out of the `r nbins^ncol(fullMat)` possible voxels defined over the initial `r ncol(fullMat)`-dimensional space (`r round(100*length(table(hc))/nbins^ncol(fullMat),2)`%).
 
 Using a Hilbert index to describe the grid has the advantage that consecutive index correspond to consecutive voxels inthe grid. Effectively it corresponds to a projection from *N* dimensions to a single one.
 
