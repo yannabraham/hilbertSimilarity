@@ -32,6 +32,7 @@ do.cut <- function(mat,cuts,type='combined') {
     }
   )
   cur.ch.cut <- do.call('cbind',cur.ch.cut)
+  dimnames(cur.ch.cut)[[2]] <- names(cuts)
   cur.ch.cut <- cur.ch.cut-1
   return(cur.ch.cut)
 }
