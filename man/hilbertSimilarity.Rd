@@ -15,6 +15,8 @@ the Jensen Shannon distance between the 2 probability vectors.
 \examples{
 # generate 3 samples over 5 dimensions
 # sample 1 and 2 are similar, sample 3 has an extra population
+# set the seed for reproducible examples
+set.seed(1234)
 my.samples <- lapply(LETTERS[1:3],function(j) {
     # each sample has a different number of events
     n <- floor(runif(1,0.5,0.8)*10000)
@@ -35,6 +37,9 @@ my.samples <- lapply(LETTERS[1:3],function(j) {
   }
 )
 names(my.samples) <- LETTERS[1:3]
+
+# check the population size
+lapply(my.samples,nrow)
 
 # assemble a sample matrix
 my.samples.mat <- do.call('rbind',my.samples)
