@@ -22,8 +22,8 @@ compute \code{n-1} bins using either fixed of combined limits
 }
 \details{
 the fixed limits correspond to 5 equally spaced values over the range of the column.
-   the combined limits take the local minima and maxima determined using the \code{\link{localMinima}} function,
-   to adjust the limits using the following algorithm:
+   the combined limits take the local minima and maxima determined using the \code{\link{localMinima}}
+   and \code{\link{localMaxima}} functions, to adjust the limits using the following algorithm:
      \itemize{
        \item define \code{d} as half the distance between 2 fixed limits
        \item merge local minima and local maxima that are closer than \code{d}
