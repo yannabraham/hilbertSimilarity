@@ -8,6 +8,12 @@ To install hilbertSimilarity
 devtools::install_github('yannabraham/hilbertSimilarity')
 ```
 
+Or, if you want to build the vignette:
+
+```
+devtools::install_github('yannabraham/hilbertSimilarity',build_vignettes = TRUE)
+```
+
 ## Travis Build Status
 
 [![Travis-CI Build Status](https://travis-ci.org/yannabraham/hilbertSimilarity.svg?branch=master)](https://travis-ci.org/yannabraham/hilbertSimilarity)
