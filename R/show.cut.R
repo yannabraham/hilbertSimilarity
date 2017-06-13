@@ -16,9 +16,14 @@
 #' @example examples/example.cut.R
 #'
 #' @author Yann Abraham
+#' @importFrom graphics plot plot.new abline rug legend
+#' @importFrom grDevices n2mfrow
 #' @export
 show.cut <- function(cuts, type = 'all', local = FALSE) {
-  types <- c('all','fixed','combined')
+  types <- lapply(cuts,function(x) names(x[['cuts']]))
+  types <- unlist(types)
+  types <- unique(types)
+  types <- c('all',types)
   if (is.na(pmatch(type,types))) {
     warning(type,'was not recognized, showing all cuts\n')
     type <- 'all'
@@ -29,30 +34,27 @@ show.cut <- function(cuts, type = 'all', local = FALSE) {
   par(mfrow=n2mfrow(length(cuts)+1),
       mar=c(1,1,3,1))
   ksink <- lapply(names(cuts),function(cur.ch) {
-      plot(cuts[[cur.ch]]$dens,main=paste(type,'cuts for',cur.ch))
-      if (type=='all') {
-        lapply(types[types!='all'],function(tp) {
-            abline(v=cuts[[cur.ch]][[tp]],lty=2,col=match(tp,types))
-          }
-        )
-      } else {
-        abline(v=cuts[[cur.ch]][[type]],lty=2,col=match(type,types))
-      }
-      if (local) {
-        rug(unlist(cuts[[cur.ch]][c('minima','maxima')]),col=4,lwd=3)
-      }
+    plot(cuts[[cur.ch]]$dens,main=paste(type,'cuts for',cur.ch))
+    if (type=='all') {
+      lapply(types[types!='all'],function(tp) {
+        abline(v=cuts[[cur.ch]][['cuts']][[tp]],lty=2,col=match(tp,types))
+      })
+    } else {
+      abline(v=cuts[[cur.ch]][['cuts']][[type]],lty=2,col=match(type,types))
     }
-  )
+    if (local) {
+      rug(unlist(cuts[[cur.ch]][c('minima','maxima')]),col=4,lwd=3)
+    }
+  })
   if (type=='all') {
     plot.new()
     legend('center',legend=types[types!='all'],col=seq(2,length(types)),
-           pch=16,bty='n')
+                     pch=16,bty='n')
   } else {
     plot.new()
     legend('center',legend=type,col=match(type,types),
-           pch=16,bty='n')
+                     pch=16,bty='n')
   }
   par(old.par)
   return(invisible(NULL))
 }
-
