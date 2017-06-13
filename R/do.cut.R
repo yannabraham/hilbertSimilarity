@@ -15,7 +15,9 @@
 #' @author Yann Abraham
 #' @export
 do.cut <- function(mat,cuts,type='combined') {
-  types <- c('fixed','combined')
+  types <- lapply(cuts,function(x) names(x[['cuts']]))
+  types <- unlist(types)
+  types <- unique(types)
   if(is.na(pmatch(type,types))) {
     stop(paste(type,'is not a recognized cut type - valid values are',paste(types,sep='',collapse=', ')))
   } else {
@@ -26,7 +28,7 @@ do.cut <- function(mat,cuts,type='combined') {
   }
   cur.ch.cut <- lapply(names(cuts),function(cur.ch) {
       cut(mat[,cur.ch],
-          cuts[[cur.ch]][[type]],
+          cuts[[cur.ch]][['cuts']][[type]],
           include.lowest=T,
           labels=F)
     }
