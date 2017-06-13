@@ -29,14 +29,7 @@ mat <- matrix(rnorm(300),ncol=3)
 dimnames(mat)[[2]] <- LETTERS[1:3]
 # generate 2 bins with a minimum bin size of 5
 cuts <- make.cut(mat,n=3,count.lim=5)
-par(mfrow=n2mfrow(ncol(mat)),
-mar=c(1,1,3,1))
-ksink <- lapply(dimnames(mat)[[2]],function(cur.ch) {
-   plot(cuts[[cur.ch]]$dens,
-        main=paste('Fixed Cuts for',cur.ch))
-   abline(v=cuts[[cur.ch]]$fixed,lty=2,col=2)
- }
-)
+show.cut(cuts)
 # Generate the cuts
 cut.mat <- do.cut(mat,cuts,type='fixed')
 head(cut.mat)
