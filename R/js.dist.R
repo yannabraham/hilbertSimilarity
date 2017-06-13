@@ -13,6 +13,7 @@
 #' @example examples/example.js.dist.R
 #'
 #' @author Yann Abraham
+#' @importFrom stats as.dist
 #' @export
 js.dist <- function(mat,pc=0.0001) {
   dst <- matrix(rep(0,nrow(mat)^2),nrow=nrow(mat))
@@ -28,5 +29,5 @@ js.dist <- function(mat,pc=0.0001) {
       dst[i,j] <- dst[j,i] <- (0.5*kl1+0.5*kl2)^0.5
     }
   }
-  return(stats::as.dist(dst))
+  return(as.dist(dst))
 }
