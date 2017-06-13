@@ -38,6 +38,8 @@
 #' @example examples/example.cut.R
 #'
 #' @author Yann Abraham
+#' @importFrom stats density
+#' @importFrom graphics hist
 #' @export
 make.cut <- function(mat,n=5,count.lim=40) {
   if(n<3) {
@@ -46,8 +48,8 @@ make.cut <- function(mat,n=5,count.lim=40) {
   final.cuts <- lapply(dimnames(mat)[[2]],function(cur.ch) {
     cat(cur.ch,'\n')
     x <- mat[,cur.ch]
-    cur.dens <- stats::density(x)
-    cur.hist <- graphics::hist(x,plot=F)#,breaks=5*n)
+    cur.dens <- density(x)
+    cur.hist <- hist(x,plot=F)#,breaks=5*n)
 
     # define fixed breaks
     fch <- seq(min(x),max(x),length.out=n)
