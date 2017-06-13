@@ -28,5 +28,5 @@ js.dist <- function(mat,pc=0.0001) {
       dst[i,j] <- dst[j,i] <- (0.5*kl1+0.5*kl2)^0.5
     }
   }
-  return(as.dist(dst))
+  return(stats::as.dist(dst))
 }

@@ -65,7 +65,9 @@ untreatedMat <- cbind(untreatedPhenoMat,
                       untreatedFuncMat)
 fullMat <- rbind(refMat,untreatedMat)
 fullMat <- apply(fullMat,2,function(x) {
-    x[x<0] <- 0
+    qx <- quantile(x,c(0.005,0.995))
+    x[x<qx[1]] <- qx[1]
+    x[x>qx[2]] <- qx[2]
     return(x)
   }
 )
@@ -104,7 +106,7 @@ The formula has been implemented in the `hilbert.order` function. For our exampl
 After manual inspection, we used a $c$ of 3 to compute the cuts:
 
 ```{r}
-nbins <- 3
+nbins <- 2
 cuts <- make.cut(fullMat,
                  n=nbins+1,
                  count.lim=40)
@@ -145,7 +147,7 @@ A simple way to achieve this is to use the normalized mutual information between
 
 ```{r}
 library(entropy)
-miFullMat <- matrix(NA,nrow=ncol(fullMat),ncol = ncol(fullMat) )
+miFullMat <- matrix(0,nrow=ncol(fullMat),ncol = ncol(fullMat) )
 for (i in seq(ncol(fullMat)-1)) {
   for (j in seq(i+1,ncol(fullMat))) {
     cur.tbl <- table(cutFullMat[,i],cutFullMat[,j])
@@ -186,6 +188,7 @@ plot(NULL,
      type='n'
 )
 ksink <- lapply(levels(fullAnnots$Treatment),function(cur.treat) {
+    cat(cur.treat,'\n')
     cur.dens <- density(hc[with(fullAnnots,Treatment==cur.treat)],
                         bw = dhc$bw)
     lines(cur.dens$x,rescale(cur.dens$y),

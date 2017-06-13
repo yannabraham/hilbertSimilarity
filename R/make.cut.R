@@ -46,8 +46,8 @@ make.cut <- function(mat,n=5,count.lim=40) {
   final.cuts <- lapply(dimnames(mat)[[2]],function(cur.ch) {
     cat(cur.ch,'\n')
     x <- mat[,cur.ch]
-    cur.dens <- density(x)
-    cur.hist <- hist(x,plot=F)#,breaks=5*n)
+    cur.dens <- stats::density(x)
+    cur.hist <- graphics::hist(x,plot=F)#,breaks=5*n)
 
     # define fixed breaks
     fch <- seq(min(x),max(x),length.out=n)
@@ -191,12 +191,11 @@ make.cut <- function(mat,n=5,count.lim=40) {
 
     return(list(dens=cur.dens,
                 hist=cur.hist,
-                fixed=fch,
                 minima=minch,
                 maxima=maxch,
-                combined=ach))
-  }
-  )
+                cuts=list(fixed=fch,
+                          combined=ach)))
+  })
   names(final.cuts) <- dimnames(mat)[[2]]
   return(final.cuts)
 }
