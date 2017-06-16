@@ -9,12 +9,15 @@ add.cut(cuts, new.cuts, cut.id = "manual", update = FALSE)
 \arguments{
 \item{cuts}{a list of cuts generated using \code{\link{make.cut}}}
 
-\item{mat}{the matrix to cut}
+\item{new.cuts}{a list of new cut thresholds to be added to \code{cuts}}
 
-\item{type}{the type of cuts to use (use \code{combined} by default)}
+\item{cut.id}{string identifying the new cuts}
+
+\item{update}{if FALSE (the default) adding a \code{cut.id} that already exists in \code{cuts}
+will return an error}
 }
 \description{
-Apply cuts generated using the \code{\link{make.cut}} function to the reference matrix
+Add new manual cuts to the \code{cuts} matrix generated using \code{\link{make.cut}}
 }
 \details{
 The matrix can be cut using either the fixed cuts (\code{type='fixed'}), or the combined cuts (\code{type='combined'})

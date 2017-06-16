@@ -1,10 +1,12 @@
 #' Add New Cut Thresholds
 #'
-#' Apply cuts generated using the \code{\link{make.cut}} function to the reference matrix
+#' Add new manual cuts to the \code{cuts} matrix generated using \code{\link{make.cut}}
 #'
-#' @param mat the matrix to cut
 #' @param cuts a list of cuts generated using \code{\link{make.cut}}
-#' @param type the type of cuts to use (use \code{combined} by default)
+#' @param new.cuts a list of new cut thresholds to be added to \code{cuts}
+#' @param cut.id string identifying the new cuts
+#' @param update if FALSE (the default) adding a \code{cut.id} that already exists in \code{cuts}
+#'        will return an error
 #'
 #' @details
 #' The matrix can be cut using either the fixed cuts (\code{type='fixed'}), or the combined cuts (\code{type='combined'})
