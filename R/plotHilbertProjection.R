@@ -5,6 +5,10 @@
 #'
 #' @param hc the hilbert index returned by \code{\link{do.hilbert}}
 #' @param proj the projected reference matrix returned by \code{\link{hilbertProjection}}
+#' @param pch the point shape (see \code{\link{par}})
+#' @param cex the value used for character expansion (see \code{\link{par}})
+#' @param col that color on which the colorscale will be built (see \code{\link{colorRampPalette}})
+#' @param fun the function used to transform the count data for easier visualization (defaults to \code{\link{log10}})
 #'
 #' @return a matrix with \code{target} columns, corresponding to
 #' the projection of each Hilbert index to \code{target} dimensions
@@ -14,13 +18,15 @@
 #'
 #' @example examples/example.projection.R
 #'
-#' @author Marilisa Neri
 #' @author Yann Abraham
-#' @author John Skilling (for the original \code{C} function)
+#'
+#' @importFrom grDevices blues9 colorRampPalette
+#' @importFrom graphics par
+#'
 #' @export
 plotHilbertProjection <- function(hc,proj,pch='.',cex=2,col=blues9,fun='log10') {
   plot(proj,
        cex=cex,
        pch=pch,
-       col=colorRampPalette(col)(24)[cut(get(fun)(table(hc)),breaks=24,labels=F)])
+       col=colorRampPalette(col)(24)[cut(get(fun)(table(hc)),breaks=24,labels=FALSE)])
 }

@@ -11,6 +11,14 @@ plotHilbertProjection(hc, proj, pch = ".", cex = 2, col = blues9,
 \item{hc}{the hilbert index returned by \code{\link{do.hilbert}}}
 
 \item{proj}{the projected reference matrix returned by \code{\link{hilbertProjection}}}
+
+\item{pch}{the point shape (see \code{\link{par}})}
+
+\item{cex}{the value used for character expansion (see \code{\link{par}})}
+
+\item{col}{that color on which the colorscale will be built (see \code{\link{colorRampPalette}})}
+
+\item{fun}{the function used to transform the count data for easier visualization (defaults to \code{\link{log10}})}
 }
 \value{
 a matrix with \code{target} columns, corresponding to
@@ -37,13 +45,9 @@ cut.mat <- do.cut(mat,cuts,type='fixed')
 hc <- do.hilbert(cut.mat,horder)
 # project the matrix to 2 dimensions
 proj <- hilbertProjection(hc)
-plot(proj,cex=2,pch='.',col=colorRampPalette(blues9)(24)[cut(log10(table(hc)),breaks=24,labels=F)])
+plotHilbertProjection(hc,proj)
 }
 \author{
-Marilisa Neri
-
 Yann Abraham
-
-John Skilling (for the original \code{C} function)
 }
 
