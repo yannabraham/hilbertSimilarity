@@ -16,8 +16,10 @@
 #' @example examples/example.cut.R
 #'
 #' @author Yann Abraham
-#' @importFrom graphics plot plot.new abline rug legend
+#'
+#' @importFrom graphics plot plot.new abline rug legend par
 #' @importFrom grDevices n2mfrow
+#'
 #' @export
 show.cut <- function(cuts, type = 'all', local = FALSE) {
   types <- lapply(cuts,function(x) names(x[['cuts']]))
