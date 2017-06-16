@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{hilbertMapping}
 \alias{hilbertMapping}
-\title{Map High Dimensional Coordinates to Hilbert Index}
+\title{Map High Dimensional Coordinates to Hilbert Index and back}
 \arguments{
 \item{x}{a matrix of a matrix of integer coordinates (see \code{\link{do.hilbert}})}
 
@@ -12,8 +12,8 @@
 a vector of hilbert index, one for each line in \code{x}
 }
 \description{
-Compute the \href{https://en.wikipedia.org/wiki/Hilbert_curve}{Hilbert index} for each
-row of a matrix of integer coordinates corresponding to sub-cubes in a high dimensional space
+\code{hilbertMapping} will compute the \href{https://en.wikipedia.org/wiki/Hilbert_curve}{Hilbert index} for each
+row of a matrix of integer coordinates corresponding to sub-cubes in a high dimensional space.
 }
 \details{
 Functions: TransposetoAxes AxestoTranspose
@@ -27,6 +27,9 @@ X[2] = C F I L O axes |/
 high low 0------ X[0]
 Axes are stored conventially as b-bit integers.
 Author: John Skilling 20 Apr 2001 to 11 Oct 2003
+
+The source code includes the correction suggested in the following
+\href{https://stackoverflow.com/a/10384110}{StackOverflow discussion}.
 }
 \author{
 Marilisa Neri

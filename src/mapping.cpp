@@ -2,11 +2,11 @@
 //' @importFrom Rcpp sourceCpp
 //'
 //' @name hilbertMapping
-//' @title Map High Dimensional Coordinates to Hilbert Index
+//' @title Map High Dimensional Coordinates to Hilbert Index and back
 //'
 //' @description
-//' Compute the \href{https://en.wikipedia.org/wiki/Hilbert_curve}{Hilbert index} for each
-//' row of a matrix of integer coordinates corresponding to sub-cubes in a high dimensional space
+//' \code{hilbertMapping} will compute the \href{https://en.wikipedia.org/wiki/Hilbert_curve}{Hilbert index} for each
+//' row of a matrix of integer coordinates corresponding to sub-cubes in a high dimensional space.
 //'
 //' @param x a matrix of a matrix of integer coordinates (see \code{\link{do.hilbert}})
 //' @param bits the hilbert order, \emph{i.e.} the number of cuts in each dimension
@@ -24,6 +24,9 @@
 //' high low 0------ X[0]
 //' Axes are stored conventially as b-bit integers.
 //' Author: John Skilling 20 Apr 2001 to 11 Oct 2003
+//'
+//' The source code includes the correction suggested in the following
+//' \href{https://stackoverflow.com/a/10384110}{StackOverflow discussion}.
 //'
 //' @author Marilisa Neri
 //' @author Yann Abraham
