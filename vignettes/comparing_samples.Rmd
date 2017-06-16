@@ -65,12 +65,11 @@ untreatedMat <- cbind(untreatedPhenoMat,
                       untreatedFuncMat)
 fullMat <- rbind(refMat,untreatedMat)
 fullMat <- apply(fullMat,2,function(x) {
-    qx <- quantile(x,c(0.005,0.995))
-    x[x<qx[1]] <- qx[1]
-    x[x>qx[2]] <- qx[2]
-    return(x)
-  }
-)
+  qx <- quantile(x,c(0.005,0.995))
+  x[x<qx[1]] <- qx[1]
+  x[x>qx[2]] <- qx[2]
+  return(x)
+})
 ```
 
 In this dataset `r nrow(fullMat)` cells corresponding to `r nlevels(fullAnnots$Treatment)` have been measured over `r ncol(fullMat)` channels. Cells have been gated into `r nlevels(fullAnnots$Cells)` populations. The following treaments are compared to one another:
@@ -185,19 +184,15 @@ plot(NULL,
      ylim=c(0,1),
      xlab='Hilbert index',
      ylab='scaled density',
-     type='n'
-)
+     type='n')
 ksink <- lapply(levels(fullAnnots$Treatment),function(cur.treat) {
-    cat(cur.treat,'\n')
-    cur.dens <- density(hc[with(fullAnnots,Treatment==cur.treat)],
-                        bw = dhc$bw)
-    lines(cur.dens$x,rescale(cur.dens$y),
-          col=treatment.cols[cur.treat],
-          lty=2
-          )
-
-  }
-)
+  cat(cur.treat,'\n')
+  cur.dens <- density(hc[with(fullAnnots,Treatment==cur.treat)],
+                      bw = dhc$bw)
+  lines(cur.dens$x,rescale(cur.dens$y),
+        col=treatment.cols[cur.treat],
+        lty=2) 
+})
 lines(dhc$x,rescale(dhc$y),lty=2,col='grey12')
 legend(4.7e6,1,
        legend=names(treatment.cols),
@@ -222,8 +217,7 @@ heatmap(asinh(5*treatment.table),
         Rowv = NA,
         labRow = NA,
         col = colorRampPalette(c('white',blues9))(256),
-        margin = c(12,1)
-        )
+        margin = c(12,1))
 ```
 
 In this experiment, each sample corresponds to a specific cell type and treatment: to compute the distance between samples we use a distance derived from information theory, the [Jensen-Shannon distance](https://www.cise.ufl.edu/~anand/sp06/jensen-shannon.pdf). This is done through the `js.dist` function. The resulting distance matrix can be used to compute a hierarchical cluster:
@@ -242,8 +236,7 @@ heatmap(asinh(5*treatment.table),
         Rowv = NA,
         labRow = NA,
         col = colorRampPalette(c('white',blues9))(256),
-        margin = c(12,2)
-        )
+        margin = c(12,2))
 ```
 
 Samples corresponding to **reference** and **BCR/FcR-XL** cluster together and have similar patterns, while **PMA/Ionomycin** and **vanadate** samples show strong differences with every other sample.
