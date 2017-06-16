@@ -21,7 +21,7 @@ hilbertProjection <- function(hc,target=2) {
   targetb <- max(hc)^(1/target)
   targetb <- log2(targetb)
   targetb <- 2^ceiling(targetb)
-  cat('Projecting the Hilbert curve to',target,'dimensions will require',targetb,'bins')
+  cat('Projecting the Hilbert curve to',target,'dimensions will require',targetb,'bins\n')
   ref <- lapply(seq(target),function(i) seq(targetb)-1)
   ref <- as.matrix(expand.grid(ref))
 
