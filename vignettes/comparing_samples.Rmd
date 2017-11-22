@@ -111,7 +111,7 @@ cuts <- make.cut(fullMat,
                  count.lim=40)
 ```
 
-## Reviewing the grid
+# Reviewing the grid
 
 The `make.cut` function returns 2 cuts:
 
@@ -126,7 +126,7 @@ show.cut(cuts)
 
 The green lines correspond to the `fixed` limits, the red lines correspond to the adjusted limits (when applicable). For cases like CD3, pSlp76 and ZAP70, it allows for a better separation between the positive and negative populations.
 
-## Applying the grid to the data
+# Applying the grid to the data
 
 Given a dataset and a grid, the `do.cut` function will assign each cell to a particular bin in every dimension.
 
@@ -168,6 +168,8 @@ hc <- do.hilbert(cutFullMat[,col.order],nbins)
 
 All cells are found in `r length(table(hc))` voxels out of the `r nbins^ncol(fullMat)` possible voxels defined over the initial `r ncol(fullMat)`-dimensional space (`r round(100*length(table(hc))/nbins^ncol(fullMat),2)`%).
 
+# Visualizing the Hilbert curve
+## Using the Hilbert index to visualize cell densities
 Using a Hilbert index to describe the grid has the advantage that consecutive index correspond to consecutive voxels inthe grid. Effectively it corresponds to a projection from *N* dimensions to a single one.
 
 As shown in the following plot, specific treatments are associated with changes in specific bins.
@@ -201,6 +203,21 @@ legend(4.7e6,1,
        bty='n',
        cex=0.7)
 ```
+
+## Projecting the Hilbert curve in 2 Dimensions
+
+The Hilbert curve can be re-folded back into any dimensionality, for example to visualize data as a scatter plot:
+
+```{r}
+proj <- hilbertProjection(hc)
+```
+
+The results can be visualized using 
+
+```{r}
+plotHilbertProjection(hc,proj)
+```
+
 
 We can now use the Hilbert index to compare samples or conditions.
 

@@ -9,6 +9,7 @@
 #' @param cex the value used for character expansion (see \code{\link{par}})
 #' @param col that color on which the colorscale will be built (see \code{\link{colorRampPalette}})
 #' @param fun the function used to transform the count data for easier visualization (defaults to \code{\link{log10}})
+#' @param add if add is TRUE (the default) then the projected Hilbert curve is added to the previous plot
 #'
 #' @return a matrix with \code{target} columns, corresponding to
 #' the projection of each Hilbert index to \code{target} dimensions
@@ -24,9 +25,10 @@
 #' @importFrom graphics par
 #'
 #' @export
-plotHilbertProjection <- function(hc,proj,pch='.',cex=2,col=blues9,fun='log10') {
+plotHilbertProjection <- function(hc,proj,pch='.',cex=2,col=blues9,fun='log10',add=FALSE) {
   plot(proj,
        cex=cex,
        pch=pch,
-       col=colorRampPalette(col)(24)[cut(get(fun)(table(hc)),breaks=24,labels=FALSE)])
+       col=colorRampPalette(col)(24)[cut(get(fun)(table(hc)),breaks=24,labels=FALSE)],
+       add=add)
 }
