@@ -38,6 +38,6 @@
 NULL
 
 hilbertMapping <- function(x, bits) {
-    .Call('hilbertSimilarity_hilbertMapping', PACKAGE = 'hilbertSimilarity', x, bits)
+    .Call('_hilbertSimilarity_hilbertMapping', PACKAGE = 'hilbertSimilarity', x, bits)
 }
 

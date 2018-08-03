@@ -5,7 +5,7 @@
 \title{A simple helper function to plot projected Hilbert curves}
 \usage{
 plotHilbertProjection(hc, proj, pch = ".", cex = 2, col = blues9,
-  fun = "log10")
+  fun = "log10", add = FALSE)
 }
 \arguments{
 \item{hc}{the hilbert index returned by \code{\link{do.hilbert}}}
@@ -19,6 +19,8 @@ plotHilbertProjection(hc, proj, pch = ".", cex = 2, col = blues9,
 \item{col}{that color on which the colorscale will be built (see \code{\link{colorRampPalette}})}
 
 \item{fun}{the function used to transform the count data for easier visualization (defaults to \code{\link{log10}})}
+
+\item{add}{if add is TRUE (the default) then the projected Hilbert curve is added to the previous plot}
 }
 \value{
 a matrix with \code{target} columns, corresponding to
@@ -50,4 +52,3 @@ plotHilbertProjection(hc,proj)
 \author{
 Yann Abraham
 }
-

@@ -7,7 +7,7 @@ using namespace Rcpp;
 
 // hilbertMapping
 NumericVector hilbertMapping(NumericMatrix x, int bits);
-RcppExport SEXP hilbertSimilarity_hilbertMapping(SEXP xSEXP, SEXP bitsSEXP) {
+RcppExport SEXP _hilbertSimilarity_hilbertMapping(SEXP xSEXP, SEXP bitsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -16,4 +16,14 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(hilbertMapping(x, bits));
     return rcpp_result_gen;
 END_RCPP
+}
+
+static const R_CallMethodDef CallEntries[] = {
+    {"_hilbertSimilarity_hilbertMapping", (DL_FUNC) &_hilbertSimilarity_hilbertMapping, 2},
+    {NULL, NULL, 0}
+};
+
+RcppExport void R_init_hilbertSimilarity(DllInfo *dll) {
+    R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+    R_useDynamicSymbols(dll, FALSE);
 }

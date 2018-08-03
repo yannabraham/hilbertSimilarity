@@ -40,4 +40,3 @@ head(cut.mat)
 \author{
 Yann Abraham
 }
-

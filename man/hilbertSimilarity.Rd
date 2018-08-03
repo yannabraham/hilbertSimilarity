@@ -96,4 +96,3 @@ my.samples.clust <- hclust(my.samples.dist)
 
 plot(my.samples.clust)
 }
-

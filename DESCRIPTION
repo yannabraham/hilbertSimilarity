@@ -26,4 +26,4 @@ LazyData: TRUE
 URL: http://github.com/yannabraham/hilbertSimilarity
 BugReports: http://github.com/yannabraham/hilbertSimilarity/issues
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

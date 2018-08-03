@@ -24,4 +24,3 @@ abline(v=dx$x[localMaxima(dx$y)],col=2,lty=2)
 \author{
 Tommy \url{http://stackoverflow.com/questions/6836409/finding-local-maxima-and-minima}
 }
-

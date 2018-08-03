@@ -45,4 +45,3 @@ Yann Abraham
 
 John Skilling (for the original \code{C} function)
 }
-

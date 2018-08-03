@@ -107,4 +107,3 @@ plot(my.samples.clust)
 \author{
 Yann Abraham
 }
-
