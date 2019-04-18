@@ -22,13 +22,19 @@
 #' @author Yann Abraham
 #'
 #' @importFrom grDevices blues9 colorRampPalette
-#' @importFrom graphics par
+#' @importFrom graphics par points
 #'
 #' @export
 plotHilbertProjection <- function(hc,proj,pch='.',cex=2,col=blues9,fun='log10',add=FALSE) {
-  plot(proj,
-       cex=cex,
-       pch=pch,
-       col=colorRampPalette(col)(24)[cut(get(fun)(table(hc)),breaks=24,labels=FALSE)],
-       add=add)
+  if(add) {
+      points(proj,
+             cex=cex,
+             pch=pch,
+             col=colorRampPalette(col)(24)[cut(get(fun)(table(hc)),breaks=24,labels=FALSE)])
+  } else {
+      plot(proj,
+           cex=cex,
+           pch=pch,
+           col=colorRampPalette(col)(24)[cut(get(fun)(table(hc)),breaks=24,labels=FALSE)])
+  }
 }
