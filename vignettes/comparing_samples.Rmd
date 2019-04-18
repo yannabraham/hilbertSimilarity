@@ -170,65 +170,95 @@ All cells are found in `r length(table(hc))` voxels out of the `r nbins^ncol(ful
 
 # Visualizing the Hilbert curve
 ## Using the Hilbert index to visualize cell densities
+
 Using a Hilbert index to describe the grid has the advantage that consecutive index correspond to consecutive voxels inthe grid. Effectively it corresponds to a projection from *N* dimensions to a single one.
 
-As shown in the following plot, specific treatments are associated with changes in specific bins.
-
-```{r}
-library(RColorBrewer)
-treatment.cols <- setNames(brewer.pal(nlevels(fullAnnots$Treatment),'Set1'),
-                           levels(fullAnnots$Treatment))
-rescale <- function(x) return((x-min(x))/(diff(range(x))))
-dhc <- density(hc)
-
-plot(NULL,
-     xlim=c(0,max(hc)),
-     ylim=c(0,1),
-     xlab='Hilbert index',
-     ylab='scaled density',
-     type='n')
-ksink <- lapply(levels(fullAnnots$Treatment),function(cur.treat) {
-  cat(cur.treat,'\n')
-  cur.dens <- density(hc[with(fullAnnots,Treatment==cur.treat)],
-                      bw = dhc$bw)
-  lines(cur.dens$x,rescale(cur.dens$y),
-        col=treatment.cols[cur.treat],
-        lty=2) 
-})
-lines(dhc$x,rescale(dhc$y),lty=2,col='grey12')
-legend(4.7e6,1,
-       legend=names(treatment.cols),
-       col=treatment.cols,
-       pch=16,
-       bty='n',
-       cex=0.7)
-```
-
-## Projecting the Hilbert curve in 2 Dimensions
-
-The Hilbert curve can be re-folded back into any dimensionality, for example to visualize data as a scatter plot:
-
-```{r}
-proj <- hilbertProjection(hc)
-```
-
-The results can be visualized using 
-
-```{r}
-plotHilbertProjection(hc,proj)
-```
-
-
-We can now use the Hilbert index to compare samples or conditions.
-
-# Comparing cells using Hilbert index
-
-With each cell now associated to a specific hilbert index, each sample can be described by computing the number of cells from a given sample that corresponds to a particular index. The resulting table can be visualized as a heat map:
+To visualize the Hilbert curve we use [Andrews plots](https://en.wikipedia.org/wiki/Andrews_plot) to standardize the display to a common range. First we compute the number of cells per Hilbert index, per treatment:
 
 ```{r}
 treatment.table <- with(fullAnnots,
                         table(hc,Treatment))
-heatmap(asinh(5*treatment.table),
+treatment.pc <- apply(treatment.table,2,function(x) x/sum(x))
+```
+
+Next we prepare the Andrews vector; adjust the number of breaks to return a smoother curve :
+
+```{r}
+av <- andrewsProjection(t(treatment.pc),breaks=40)
+```
+
+Then we project the Hilbert curve of each treatment onto the Andrews vector:
+
+```{r}
+treatment.proj <- t(treatment.pc) %*% t(av$freq)
+```
+
+Now we can visualize the different treatment using line charts:
+
+```{r}
+library(reshape2)
+library(dplyr)
+library(ggplot2)
+melt(treatment.proj) %>% 
+    rename(AndrewsIndex=Var2) %>% 
+    mutate(AndrewsIndex=av$i[AndrewsIndex]) %>% 
+    ggplot(aes(x=AndrewsIndex,y=value))+
+    geom_line(aes(group=Treatment,color=Treatment))+
+    theme_light(base_size=16)+
+    theme(axis.title.x=element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.x=element_blank(),
+          axis.title.y=element_blank(),
+          axis.text.y=element_blank(),
+          axis.ticks.y=element_blank())
+```
+
+Specific treatments are associated with changes in specific bins. Please note that this method compresses the Hilbert curve by only considering indices that contain cells.
+
+## Projecting the Hilbert curve in 2 Dimensions
+
+The Hilbert curve can be re-folded back into any dimensionality using the `hilbertProjection` function. To visualize the Hilbert curve as a scatter plot, we use 2 as the target number of dimensions :
+
+```{r}
+proj <- hilbertProjection(hc,target = 2)
+```
+
+To visualize the Hilbert curve as a 2D projection, we first compute the number of cells per unique combination of annotation columns and Hilbert index:
+
+```{r}
+fullProj <- fullAnnots %>% 
+    mutate(HilbertIndex=hc) %>% 
+    group_by_at(vars(one_of(colnames(fullAnnots),'HilbertIndex'))) %>% 
+    count() %>%
+    bind_cols(as.data.frame(proj[.$HilbertIndex+1,]))
+fullProj
+```
+
+The percentage of cells per treatment is visualized using `ggplot2` :
+
+```{r}
+fullProj %>% 
+    group_by(Treatment) %>% 
+    mutate(PC=n/sum(n)) %>% 
+    ggplot(aes(x=V1,y=V2))+
+    geom_tile(aes(color=PC))+
+    facet_wrap(~Treatment)+
+    scale_color_gradient2(low='grey20',mid='grey80',high='blue',midpoint = 0.005)+
+    theme_light(base_size=16)+
+    theme(axis.title.x=element_blank(),
+          axis.text.x=element_blank(),
+          axis.ticks.x=element_blank(),
+          axis.title.y=element_blank(),
+          axis.text.y=element_blank(),
+          axis.ticks.y=element_blank())
+```
+
+# Comparing cells using Hilbert index
+
+With each cell now associated to a specific hilbert index, each sample can be described by the percentage of cells from a given sample that corresponds to a particular index. The resulting table can be visualized as a heat map:
+
+```{r}
+heatmap(log10(treatment.pc),
         scale = 'none',
         Colv = NA,
         Rowv = NA,
@@ -247,7 +277,7 @@ treatment.hc <- hclust(treatment.dist)
 When ordering samples using `treatment.hc` we see patterns emerging:
 
 ```{r}
-heatmap(asinh(5*treatment.table),
+heatmap(log10(treatment.pc),
         scale = 'none',
         Colv = as.dendrogram(treatment.hc),
         Rowv = NA,
@@ -256,4 +286,4 @@ heatmap(asinh(5*treatment.table),
         margin = c(12,2))
 ```
 
-Samples corresponding to **reference** and **BCR/FcR-XL** cluster together and have similar patterns, while **PMA/Ionomycin** and **vanadate** samples show strong differences with every other sample.
+Samples corresponding to **reference** and **BCR/FcR-XL** cluster together, while **PMA/Ionomycin** and **vanadate** samples show strong differences with every other sample.
