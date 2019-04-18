@@ -1,8 +1,8 @@
 Package: hilbertSimilarity
 Type: Package
 Title: Hilbert Similarity Index for High Dimensional Data
-Version: 0.2
-Date: 2015-11-06
+Version: 0.4
+Date: 2019-04-18
 Authors@R: c(person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre')),
              person('Marilisa','Neri',email='marilisa.neri@gmail.com',role='aut'))
 Description: Quantifying similarity between high-dimensional single cell samples is challenging, and usually requires
@@ -18,12 +18,15 @@ Imports:
 Suggests:
     knitr,
     rmarkdown,
+    ggplot2,
+    dplyr,
+    reshape2,
     bodenmiller,
-    RColorBrewer,
     abind
 License: CC BY-NC-SA 4.0
 LazyData: TRUE
+Encoding: UTF-8
 URL: http://github.com/yannabraham/hilbertSimilarity
 BugReports: http://github.com/yannabraham/hilbertSimilarity/issues
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
