@@ -27,6 +27,6 @@ hilbertProjection <- function(hc,target=2) {
 
   phc <- do.hilbert(ref,targetb)
   proj <- ref[order(phc),]
-
+  colnames(proj) <- c('V1','V2')
   return(proj)
 }

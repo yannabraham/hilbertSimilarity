@@ -36,7 +36,10 @@ cut.mat <- do.cut(mat,cuts,type='fixed')
 hc <- do.hilbert(cut.mat,horder)
 # project the matrix to 2 dimensions
 proj <- hilbertProjection(hc)
-plotHilbertProjection(hc,proj)
+plot(proj,
+     cex=2,
+     pch='.',
+     col=colorRampPalette(blues9)(24)[cut(table(hc),breaks=24,labels=FALSE)])
 }
 \author{
 Marilisa Neri
