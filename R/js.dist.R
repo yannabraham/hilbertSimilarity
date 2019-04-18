@@ -5,7 +5,7 @@
 #' datasets, we cut the space into sub-cubes, then count the number of events per cube. The resulting probability
 #' distributions can be compared using the Jensen-Shannon distance.
 #'
-#' @param mat a matrix of counts, where rows correspond to samples and columns to sub-cubes
+#' @param mat a matrix of counts, where rows correspond to samples and columns to Hilbert index
 #' @param pc a pseudo-count that is added to all samples to avoid divide-by-zero errors
 #'
 #' @return a S3 distance object

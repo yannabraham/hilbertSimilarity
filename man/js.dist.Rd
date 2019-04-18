@@ -7,7 +7,7 @@
 js.dist(mat, pc = 1e-04)
 }
 \arguments{
-\item{mat}{a matrix of counts, where rows correspond to samples and columns to sub-cubes}
+\item{mat}{a matrix of counts, where rows correspond to samples and columns to Hilbert index}
 
 \item{pc}{a pseudo-count that is added to all samples to avoid divide-by-zero errors}
 }

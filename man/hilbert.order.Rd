@@ -20,7 +20,7 @@ Assuming the matrix is fully random, there is no need to generate more voxels
            \deqn{c^{d} < N}{c^d < N}
            where \emph{c} is the number of bins, \emph{d} is the number of dimensions and \emph{N} is the total
            number of cells in the dataset. \emph{c} can be computed easily using the following formula:
-           \deqn{c = \lfloor \sqrt[d]{N}}{c=floor(N^(1/d))}.
+           \deqn{c = \lfloor \sqrt[d]{N}}{c = floor(N^1/d)}
 }
 \examples{
 # generate a random 3D matrix with 2 peaks
