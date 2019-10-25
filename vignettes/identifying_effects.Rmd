@@ -78,7 +78,7 @@ In this dataset `r nrow(fullMat)` cells corresponding to `r nlevels(fullAnnots$T
 ```{r,echo=FALSE}
 nCellTreats <- with(fullAnnots,table(Cells,Treatment))
 pCellTreats <- apply(nCellTreats,2,function(x) x/sum(x))
-data.frame(nCellTreats)
+kable(nCellTreats)
 ```
 
 The smallest cell population, `r names(which.min(100*table(fullAnnots$Cells)/nrow(fullAnnots)))`, corresponds to `r round(min(100*table(fullAnnots$Cells)/nrow(fullAnnots)),3)`% of the total cells.
@@ -220,13 +220,13 @@ sum.sig.res <- cbind(sum.sig.res,
 colnames(sum.sig.res) <- c('Number of indices',
                            'Number of Significant cells',
                            'Percent Significant Cells')
-data.frame(sum.sig.res)
+kable(sum.sig.res)
 ```
 
 Focusing on **BCR/FcR-XL**, which are the `r sum(sig.res[,'BCR/FcR-XL'])` indices that were found significant?
 
 ```{r}
-data.frame(treatment.table[boot.ind[sig.res[,'BCR/FcR-XL']],])
+kable(treatment.table[boot.ind[sig.res[,'BCR/FcR-XL']],])
 ```
 
 Compared to the unstimulated sample, cells are decreasing in 2 bins and increasing in a 3^rd^ one. Based on manual gating, what do these bins correspond to?
@@ -256,7 +256,7 @@ colnames(sum.sig.cells) <- c('Number of Significant Cells',
                              paste('Number of Signigicant Cells in',cur.treatment),
                              paste('Number of Cells in',cur.treatment),
                              paste('Percent of',cur.treatment))
-data.frame(sum.sig.cells)
+kable(sum.sig.cells)
 ```
 
 All the cells that are found significant are B cells, and they represent a large fraction of all B cells in the `r cur.treatment` sample, even when only taking the bootstrapped indices into account. 
