@@ -237,7 +237,7 @@ fullProj <- fullAnnots %>%
     group_by_at(vars(one_of(colnames(fullAnnots),'HilbertIndex'))) %>% 
     count() %>%
     bind_cols(as.data.frame(proj[.$HilbertIndex+1,]))
-fullProj
+kable(fullProj)
 ```
 
 The percentage of cells per treatment is visualized using `ggplot2` :
