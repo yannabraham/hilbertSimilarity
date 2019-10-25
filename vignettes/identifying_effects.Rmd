@@ -161,7 +161,7 @@ treatment.table <- with(fullAnnots,
 # minimum number of cells
 lim <- 40
 # number of bootstraps
-N <- 1000
+N <- 400
 # significant fold change
 flim <- 2
 # limit of significance
