@@ -36,10 +36,15 @@ cut.mat <- do.cut(mat,cuts,type='fixed')
 hc <- do.hilbert(cut.mat,horder)
 # project the matrix to 2 dimensions
 proj <- hilbertProjection(hc)
-plot(proj,
-     cex=2,
-     pch='.',
-     col=colorRampPalette(blues9)(24)[cut(table(hc),breaks=24,labels=FALSE)])
+data.frame(idx=hc) \%>\%
+    count(idx) \%>\%
+    mutate(x=proj[idx,1],
+           y=proj[idx,2],
+           pc=n/sum(n)) \%>\%
+    ggplot(aes(x=x,y=y))+
+    geom_tile(aes(fill=pc))+
+    scale_fill_gradient(low='grey80',high='blue')+
+    theme_light()
 }
 \author{
 Marilisa Neri
