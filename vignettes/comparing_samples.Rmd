@@ -72,12 +72,17 @@ fullMat <- apply(fullMat,2,function(x) {
 })
 ```
 
-In this dataset `r nrow(fullMat)` cells corresponding to `r nlevels(fullAnnots$Treatment)` have been measured over `r ncol(fullMat)` channels. Cells have been gated into `r nlevels(fullAnnots$Cells)` populations. The following treaments are compared to one another:
+In this dataset `r nrow(fullMat)` cells corresponding to `r nlevels(fullAnnots$Treatment)` have been measured over `r ncol(fullMat)` channels. Cells have been gated into `r nlevels(fullAnnots$Cells)` populations. The percentage of each population per treatment is shown below:
 
 ```{r,echo=FALSE}
-nCellTreats <- with(fullAnnots,table(Cells,Treatment))
-pCellTreats <- apply(nCellTreats,2,function(x) x/sum(x))
-kable(nCellTreats)
+library(dplyr)
+library(tidyr)
+fullAnnots %>% 
+    count(Cells,Treatment) %>% 
+    group_by(Treatment) %>% 
+    mutate(n=n/sum(n),
+           n=round(100*n,2)) %>% 
+    spread(Treatment,n)
 ```
 
 The smallest cell population, `r names(which.min(100*table(fullAnnots$Cells)/nrow(fullAnnots)))`, corresponds to `r round(min(100*table(fullAnnots$Cells)/nrow(fullAnnots)),3)`% of the total cells.
@@ -111,7 +116,7 @@ cuts <- make.cut(fullMat,
                  count.lim=40)
 ```
 
-# Reviewing the grid
+## Reviewing the grid
 
 The `make.cut` function returns 2 cuts:
 
@@ -159,6 +164,8 @@ hcFullMat <- hclust(as.dist(miFullMat))
 plot(hcFullMat)
 ```
 
+## Calculating the Hilbert index
+
 After ordering the cut matrix using the normalized mutual information, it can be transformed into a Hilbert index using the `do.hilbert` function:
 
 ```{r}
@@ -169,7 +176,7 @@ hc <- do.hilbert(cutFullMat[,col.order],nbins)
 All cells are found in `r length(table(hc))` voxels out of the `r nbins^ncol(fullMat)` possible voxels defined over the initial `r ncol(fullMat)`-dimensional space (`r round(100*length(table(hc))/nbins^ncol(fullMat),2)`%).
 
 # Visualizing the Hilbert curve
-## Using the Hilbert index to visualize cell densities
+## Using the Andrews curve to visualize cell densities
 
 Using a Hilbert index to describe the grid has the advantage that consecutive index correspond to consecutive voxels inthe grid. Effectively it corresponds to a projection from *N* dimensions to a single one.
 
@@ -184,7 +191,7 @@ treatment.pc <- apply(treatment.table,2,function(x) x/sum(x))
 Next we prepare the Andrews vector; adjust the number of breaks to return a smoother curve :
 
 ```{r}
-av <- andrewsProjection(t(treatment.pc),breaks=40)
+av <- andrewsProjection(t(treatment.pc),breaks=30)
 ```
 
 Then we project the Hilbert curve of each treatment onto the Andrews vector:
@@ -196,9 +203,8 @@ treatment.proj <- t(treatment.pc) %*% t(av$freq)
 Now we can visualize the different treatment using line charts:
 
 ```{r}
-library(reshape2)
-library(dplyr)
 library(ggplot2)
+library(reshape2)
 melt(treatment.proj) %>% 
     rename(AndrewsIndex=Var2) %>% 
     mutate(AndrewsIndex=av$i[AndrewsIndex]) %>% 
@@ -236,14 +242,16 @@ fullProj
 
 The percentage of cells per treatment is visualized using `ggplot2` :
 
-```{r}
+```{r,fig.height=8}
 fullProj %>% 
     group_by(Treatment) %>% 
     mutate(PC=n/sum(n)) %>% 
     ggplot(aes(x=V1,y=V2))+
-    geom_tile(aes(color=PC))+
+    geom_tile(aes(fill=PC),
+              width=24,
+              height=24)+
     facet_wrap(~Treatment)+
-    scale_color_gradient2(low='grey20',mid='grey80',high='blue',midpoint = 0.005)+
+    scale_fill_gradient(low='grey80',high='blue')+
     theme_light(base_size=16)+
     theme(axis.title.x=element_blank(),
           axis.text.x=element_blank(),
@@ -253,11 +261,13 @@ fullProj %>%
           axis.ticks.y=element_blank())
 ```
 
+The quality of the projection will depend on the density of the Hilbert curve. As this curve is sparse (only `r round(100*length(table(hc))/nbins^ncol(fullMat),2)`% of the Hilbert index contain at least 1 cell) this projection is only provided as an example.
+
 # Comparing cells using Hilbert index
 
 With each cell now associated to a specific hilbert index, each sample can be described by the percentage of cells from a given sample that corresponds to a particular index. The resulting table can be visualized as a heat map:
 
-```{r}
+```{r,fig.width=6,fig.height=6}
 heatmap(log10(treatment.pc),
         scale = 'none',
         Colv = NA,
@@ -276,7 +286,7 @@ treatment.hc <- hclust(treatment.dist)
 
 When ordering samples using `treatment.hc` we see patterns emerging:
 
-```{r}
+```{r,fig.width=6,fig.height=8}
 heatmap(log10(treatment.pc),
         scale = 'none',
         Colv = as.dendrogram(treatment.hc),
