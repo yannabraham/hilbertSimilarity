@@ -1,4 +1,4 @@
-#' Generate the Hilbert Index from a Cut Reference Matrice
+#' Generate the Hilbert Index from a Cut Reference Matrix
 #'
 #' Generate the Hilbert Index corresponding to the sub-spaces defined by the coordinates
 #' generated \emph{via} \code{\link{do.cut}}

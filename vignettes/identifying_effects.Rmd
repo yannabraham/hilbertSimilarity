@@ -23,7 +23,7 @@ opts_chunk$set(warning=FALSE,
 
 Comparing samples defined over a single dimension is a straightforward task that relies on standard, well established methods. Meanwhile distance between samples in high dimensional space remains a largely unexplored field. Available solutions rely on multivariate normal distributions, a condition that is both difficult to check and overlooking key behaviors in biological samples, where populations of interest often correspond to a small proportion (<1%) of all the points that have been measured.
 
-We have developped `hilbertSimilarity` to address the problem of sample similarity in mass cytometry where samples are measured over up to 100 dimensions, and where each sample contains a slightly different number of points (or cells). Our method first transforms each sample into a probability vector, by dividing each dimension into a fixed number of bins and by associating each cell to a specific multidimensional cube. The proportion of cells in each hypercube is characteristic of a given sample. To characterize an compare samples we use measures from Information Theory, since their interpretation in terms of similarity and complexity is straightforward.
+We have developed `hilbertSimilarity` to address the problem of sample similarity in mass cytometry where samples are measured over up to 100 dimensions, and where each sample contains a slightly different number of points (or cells). Our method first transforms each sample into a probability vector, by dividing each dimension into a fixed number of bins and by associating each cell to a specific multidimensional cube. The proportion of cells in each hypercube is characteristic of a given sample. To characterize an compare samples we use measures from Information Theory, since their interpretation in terms of similarity and complexity is straightforward.
 
 After determining sample similarity, our method can also be used to determine which cells are different between samples, by comparing the number of cells in each hypercube to a reference treatment. Since every sample contains a different number of cells, we use a bootstrap approach where the same number of cells is sampled from each treatment to allow for a direct comparison.
 
@@ -73,7 +73,7 @@ fullMat <- apply(fullMat,2,function(x) {
 )
 ```
 
-In this dataset `r nrow(fullMat)` cells corresponding to `r nlevels(fullAnnots$Treatment)` have been measured over `r ncol(fullMat)` channels. Cells have been gated into `r nlevels(fullAnnots$Cells)` populations. The following treaments are compared to one another:
+In this dataset `r nrow(fullMat)` cells corresponding to `r nlevels(fullAnnots$Treatment)` have been measured over `r ncol(fullMat)` channels. Cells have been gated into `r nlevels(fullAnnots$Cells)` populations. The following treatments are compared to one another:
 
 ```{r,echo=FALSE}
 nCellTreats <- with(fullAnnots,table(Cells,Treatment))
@@ -174,7 +174,7 @@ ncells <- floor(min(colSums(treatment.table[boot.ind,]))/1000)*1000
 
 For this exercise we use `r lim` as the minimum population size. `r length(boot.ind)` indices out of `r nrow(treatment.table)` contain enough cells.
 
-Because each treatment corresponds to a different number of cells, we will use a bootstrap approach to identify indices that are significantly different between conditions. we will bootstap `r ncells` cells from the selected bins, then check which bin contains at least `r flim` times more cells in the reference compared to other treatments. This operation will be repeated `r N` times, and any bin that is consitently different in `r p*N` bins will be considered significant.
+Because each treatment corresponds to a different number of cells, we will use a bootstrap approach to identify indices that are significantly different between conditions. we will bootstrap `r ncells` cells from the selected bins, then check which bin contains at least `r flim` times more cells in the reference compared to other treatments. This operation will be repeated `r N` times, and any bin that is consistently different in `r p*N` bins will be considered significant.
 
 ```{r}
 library(abind)

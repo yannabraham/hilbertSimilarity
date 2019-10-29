@@ -23,7 +23,7 @@ opts_chunk$set(warning=FALSE,
 
 Comparing samples defined over a single dimension is a straightforward task that relies on standard, well established methods. Meanwhile distance between samples in high dimensional space remains a largely unexplored field. Available solutions rely on multivariate normal distributions, a condition that is both difficult to check and overlooking key behaviors in biological samples, where populations of interest often correspond to a small proportion (<1%) of all the points that have been measured.
 
-We have developped `hilbertSimilarity` to address the problem of sample similarity in mass cytometry where samples are measured over up to 100 dimensions, and where each sample contains a slightly different number of points (or cells). Our method first transforms each sample into a probability vector, by dividing each dimension into a fixed number of bins and by associating each cell to a specific multidimensional cube. The proportion of cells in each hypercube is characteristic of a given sample. To characterize an compare samples we use measures from Information Theory, since their interpretation in terms of similarity and complexity is straightforward.
+We have developed `hilbertSimilarity` to address the problem of sample similarity in mass cytometry where samples are measured over up to 100 dimensions, and where each sample contains a slightly different number of points (or cells). Our method first transforms each sample into a probability vector, by dividing each dimension into a fixed number of bins and by associating each cell to a specific multidimensional cube. The proportion of cells in each hypercube is characteristic of a given sample. To characterize an compare samples we use measures from Information Theory, since their interpretation in terms of similarity and complexity is straightforward.
 
 To demonstrate the power of `hilbertSimilarity` we applied the method to a subset of the bodenmiller *et al.* dataset, comparing the effect of different stimulations and identifying groups of cells that are significantly affected by different treatments.
 
@@ -178,7 +178,7 @@ All cells are found in `r length(table(hc))` voxels out of the `r nbins^ncol(ful
 # Visualizing the Hilbert curve
 ## Using the Andrews curve to visualize cell densities
 
-Using a Hilbert index to describe the grid has the advantage that consecutive index correspond to consecutive voxels inthe grid. Effectively it corresponds to a projection from *N* dimensions to a single one.
+Using a Hilbert index to describe the grid has the advantage that consecutive index correspond to consecutive voxels in the grid. Effectively it corresponds to a projection from *N* dimensions to a single one.
 
 To visualize the Hilbert curve we use [Andrews plots](https://en.wikipedia.org/wiki/Andrews_plot) to standardize the display to a common range. First we compute the number of cells per Hilbert index, per treatment:
 

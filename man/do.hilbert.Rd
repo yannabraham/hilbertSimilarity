@@ -2,7 +2,7 @@
 % Please edit documentation in R/do.hilbert.R
 \name{do.hilbert}
 \alias{do.hilbert}
-\title{Generate the Hilbert Index from a Cut Reference Matrice}
+\title{Generate the Hilbert Index from a Cut Reference Matrix}
 \usage{
 do.hilbert(mat, horder)
 }
