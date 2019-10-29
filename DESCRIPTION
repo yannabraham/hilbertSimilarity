@@ -1,10 +1,11 @@
 Package: hilbertSimilarity
 Type: Package
 Title: Hilbert Similarity Index for High Dimensional Data
-Version: 0.4
-Date: 2019-04-18
+Version: 0.4.1
+Date: 2019-10-29
 Authors@R: c(person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre')),
-             person('Marilisa','Neri',email='marilisa.neri@gmail.com',role='aut'))
+             person('Marilisa','Neri',email='marilisa.neri@gmail.com',role='aut'),
+             person('John','Skilling',role='ctb'))
 Description: Quantifying similarity between high-dimensional single cell samples is challenging, and usually requires
     some simplifying hypothesis to be made. By transforming the high dimensional space into a high dimensional grid,
     the number of cells in each sub-space of the grid is characteristic of a given sample. Using a Hilbert curve
