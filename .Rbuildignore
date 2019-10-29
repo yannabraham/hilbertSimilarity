@@ -4,3 +4,4 @@
 ^\.Rproj\.user$
 ^\.travis\.yml$
 ^examples$
+cran-comments.md
