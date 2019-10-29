@@ -20,6 +20,7 @@ Suggests:
     rmarkdown,
     ggplot2,
     dplyr,
+    tidyr,
     reshape2,
     bodenmiller,
     abind
@@ -29,4 +30,4 @@ Encoding: UTF-8
 URL: http://github.com/yannabraham/hilbertSimilarity
 BugReports: http://github.com/yannabraham/hilbertSimilarity/issues
 VignetteBuilder: knitr
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
