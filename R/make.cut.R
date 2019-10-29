@@ -45,6 +45,9 @@ make.cut <- function(mat,n=5,count.lim=40) {
   if(n<3) {
     stop('n should be greater than 2')
   }
+  if(hilbert.order(mat)<n) {
+      warning('n is much larger than the suggested number of cuts: ',hilbert.order(mat),' see ?hilbert.order')
+  }
   final.cuts <- lapply(dimnames(mat)[[2]],function(cur.ch) {
     cat(cur.ch,'\n')
     x <- mat[,cur.ch]
