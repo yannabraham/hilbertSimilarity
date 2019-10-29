@@ -13,7 +13,7 @@ vignette: >
 library(knitr)
 opts_chunk$set(warning=FALSE,
                fig.width=8,
-               fig.height=8,
+               fig.height=6,
                fig.retina=1,
                fig.keep='high',
                fig.align='center')
