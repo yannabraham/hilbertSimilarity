@@ -78,7 +78,7 @@ NumericVector hilbertMapping(NumericMatrix x, int bits) {
   int nrow = x.nrow();
   int ndim = x.ncol();
 
-  coord_t X[ndim] ;
+  coord_t *X = new coord_t[ndim] ;
   NumericVector out(nrow);
 
   // loop through the input matrix
