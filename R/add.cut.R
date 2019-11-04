@@ -12,6 +12,8 @@
 #' The matrix can be cut using either the fixed cuts (\code{type='fixed'}), or the combined cuts (\code{type='combined'})
 #' where the limits have been adjusted to match local minima and maxima.
 #'
+#' @return an updated \code{cuts} matrix with an extra set of thresholds named \code{cut.id}.
+#'
 #' @example examples/example.cut.R
 #'
 #' @author Yann Abraham

@@ -9,6 +9,12 @@
 #' @details
 #' The matrix can be cut using either the fixed cuts (\code{type='fixed'}), or the combined cuts (\code{type='combined'})
 #' where the limits have been adjusted to match local minima and maxima.
+#' Returned values correspond to the bin defined between the first and second threshold of the specified \code{cuts},
+#' then between the second and third threshold, and so on. The values will range between 0 (the first bin) and \code{n-1} where
+#' \code{n} is the number of values in the specified \code{cuts}.
+#'
+#' @return a matrix of the same dimensionality as \code{mat} where values correspond to bins defined by the \code{type}
+#'         thresholds defined \code{cuts}.
 #'
 #' @example examples/example.cut.R
 #'

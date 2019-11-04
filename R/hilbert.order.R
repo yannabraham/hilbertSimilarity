@@ -12,11 +12,13 @@
 #'            where \emph{c} is the number of bins, \emph{d} is the number of dimensions and \emph{N} is the total
 #'            number of cells in the dataset. \emph{c} can be computed easily using the following formula:
 #'            \deqn{c = \lfloor \sqrt[d]{N}}{c = floor(N^1/d)}
+#'            The number of cuts for \code{\link{do.cut}} is the number of bins plus 1.
 #'
+#' @return the suggested number of bins to use for the specified \code{mat}.
 #' @example examples/example.cut.R
 #'
 #' @author Yann Abraham
 #' @export
 hilbert.order <- function(mat) {
-  round(nrow(mat)^(1/ncol(mat)),0)
+  return(round(nrow(mat)^(1/ncol(mat)),0))
 }

@@ -13,6 +13,8 @@
 #'            "all" will show both. Setting \code{local} to \code{TRUE} will enable the visualization of
 #'            local minima and maxima detected by the algorithm in each dimension.
 #'
+#' @return the function returns an invisible `NULL`.
+#'
 #' @example examples/example.cut.R
 #'
 #' @author Yann Abraham

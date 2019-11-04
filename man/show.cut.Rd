@@ -14,6 +14,9 @@ Any unambiguous substring can be given.}
 
 \item{local}{defaults to \code{FALSE}; if \code{TRUE}, shows the local minima and maxima as a rug plot.}
 }
+\value{
+the function returns an invisible `NULL`.
+}
 \description{
 Visualize the cuts in relation with the distribution of the data for each dimension
 in the original matrix

@@ -16,6 +16,9 @@ add.cut(cuts, new.cuts, cut.id = "manual", update = FALSE)
 \item{update}{if FALSE (the default) adding a \code{cut.id} that already exists in \code{cuts}
 will return an error}
 }
+\value{
+an updated \code{cuts} matrix with an extra set of thresholds named \code{cut.id}.
+}
 \description{
 Add new manual cuts to the \code{cuts} matrix generated using \code{\link{make.cut}}
 }

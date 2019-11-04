@@ -13,12 +13,19 @@ do.cut(mat, cuts, type = "combined")
 
 \item{type}{the type of cuts to use (use \code{combined} by default)}
 }
+\value{
+a matrix of the same dimensionality as \code{mat} where values correspond to bins defined by the \code{type}
+        thresholds defined \code{cuts}.
+}
 \description{
 Apply cuts generated using the \code{\link{make.cut}} function to the reference matrix
 }
 \details{
 The matrix can be cut using either the fixed cuts (\code{type='fixed'}), or the combined cuts (\code{type='combined'})
 where the limits have been adjusted to match local minima and maxima.
+Returned values correspond to the bin defined between the first and second threshold of the specified \code{cuts},
+then between the second and third threshold, and so on. The values will range between 0 (the first bin) and \code{n-1} where
+\code{n} is the number of values in the specified \code{cuts}.
 }
 \examples{
 # generate a random 3D matrix with 2 peaks
