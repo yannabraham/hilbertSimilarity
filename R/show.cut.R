@@ -33,6 +33,7 @@ show.cut <- function(cuts, type = 'all', local = FALSE) {
     type <- types[pmatch(type,types)]
   }
   old.par <- par(no.readonly =TRUE)
+  on.exit(par(old.par))
   par(mfrow=n2mfrow(length(cuts)+1),
       mar=c(1,1,3,1))
   ksink <- lapply(names(cuts),function(cur.ch) {
@@ -57,6 +58,5 @@ show.cut <- function(cuts, type = 'all', local = FALSE) {
     legend('center',legend=type,col=match(type,types),
                      pch=16,bty='n')
   }
-  par(old.par)
   return(invisible(NULL))
 }
