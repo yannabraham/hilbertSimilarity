@@ -22,7 +22,7 @@
 //' X[1] = B E H K N <-------> | /X[1]
 //' X[2] = C F I L O axes |/
 //' high low 0------ X[0]
-//' Axes are stored conventially as b-bit integers.
+//' Axes are stored conventionally as b-bit integers.
 //' Author: John Skilling 20 Apr 2001 to 11 Oct 2003
 //'
 //' The source code includes the correction suggested in the following
