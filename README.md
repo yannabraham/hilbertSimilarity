@@ -21,3 +21,5 @@ devtools::install_github('yannabraham/hilbertSimilarity',build_vignettes = TRUE)
 ## CRAN Version
 
 [![CRAN version](http://www.r-pkg.org/badges/version/hilbertSimilarity)](https://cran.r-project.org/package=hilbertSimilarity)
+
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/hilbertSimilarity)](https://cran.r-project.org/package=hilbertSimilarity)
