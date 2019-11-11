@@ -16,8 +16,7 @@
 
 ## reviewers comments
 
-* I fixed the problem with changing user parameters, using on.exit() as suggested
-* I added missing \value to the documentation of add.cut, do.cut, hilbert.order and show.cut
+* I fixed the comment on using math.pow with integer arguments
 
 ## Reverse dependencies
 

@@ -87,10 +87,14 @@ NumericVector hilbertMapping(NumericMatrix x, int bits) {
       X[i] = x(k,i);
     }
     AxestoTranspose (X, bits, ndim);                            // Hilbert transpose for bits and Ndim dimensions
-    for (int j=bits-1, power=(bits*ndim)-1; j>=0; j--) {
-      for (int i=0; i<ndim; i++, power--) {
-        out(k) += (X[i]>>j & 1) * pow (2, power);
-      }
+    {
+        int j;
+        float power;
+        for ( j=bits-1, power=(bits*ndim)-1; j>=0; j--) {
+            for (int i=0; i<ndim; i++, power--) {
+                out(k) += (X[i]>>j & 1) * pow (2.0, power);
+            }
+        }
     }
   }
   return out;
