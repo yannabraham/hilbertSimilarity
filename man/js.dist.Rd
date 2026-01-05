@@ -74,7 +74,7 @@ my.samples.dens$y <- (my.samples.dens$y-min(my.samples.dens$y))/diff(range(my.sa
 
 plot(my.samples.dens,col='grey3',lty=2)
 ksink <- lapply(names(my.samples),function(cur.spl) {
-    cat(cur.spl,'\\n')
+    cat(cur.spl,'\n')
     cur.dens <- density(my.samples.index[my.samples.id==cur.spl],
                         bw=my.samples.dens$bw)
     cur.dens$y <- (cur.dens$y-min(cur.dens$y))/diff(range(cur.dens$y))

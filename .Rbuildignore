@@ -1,8 +1,11 @@
-^Meta$
-^doc$
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.travis\.yml$
+^\.github
 ^examples$
-cran-comments.md
+^doc$
+^Meta$
+^cran-comments\.md$
+^README\.md$
+^inst/WORDLIST$
 ^CRAN-RELEASE$
+^CRAN-SUBMISSION$

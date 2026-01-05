@@ -1,11 +1,18 @@
+## New release of hilbertSimilarity package
+
+This is release 0.4.4 of hilbertSimilarity, where we have made the following changes
+
+* I fixed the C++ version issue
+
+The package has been archived because I failed to push the changes in time.
+
 ## Test environments
 
-* local windows 10, R 3.6.1
-* ubuntu 16.04.6 (on travis-ci), R 3.6.1
-* Fedora Linux (on r-hubs), R-devel
-* Debian Linux (on r-hubs), R-devel
-* Windows Server 2008 R2 SP1 (on r-hubs), R-devel, 32/64 bit
-* Ubuntu Linux 16.04 LTS (on r-hubs), R-release
+* aarch64-apple-darwin20, R 4.4.3
+* macosx.latest (release) (github actions)
+* ubuntu.latest (devel, release and oldrel-1) (github actions)
+* windows.latest (release) (github actions)
+* win-builder (devel and release)
 
 ## R CMD check results
 
@@ -13,10 +20,6 @@
 
 * This is a re-submission, following reviewers comments
 * the package uses a non FOSS package license: CC BY-NC-SA 4.0
-
-## reviewers comments
-
-* I fixed the comment on using math.pow with integer arguments
 
 ## Reverse dependencies
 

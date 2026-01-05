@@ -1,8 +1,8 @@
 Package: hilbertSimilarity
 Type: Package
 Title: Hilbert Similarity Index for High Dimensional Data
-Version: 0.4.3.9000
-Date: 2019-11-11
+Version: 0.4.4
+Date: 2026-01-05
 Authors@R: c(person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre')),
              person('Marilisa','Neri',email='marilisa.neri@gmail.com',role='aut'),
              person('John','Skilling',role='ctb'))
@@ -28,7 +28,7 @@ Suggests:
 License: CC BY-NC-SA 4.0
 LazyData: TRUE
 Encoding: UTF-8
-URL: http://github.com/yannabraham/hilbertSimilarity
-BugReports: http://github.com/yannabraham/hilbertSimilarity/issues
+URL: https://github.com/yannabraham/hilbertSimilarity
+BugReports: https://github.com/yannabraham/hilbertSimilarity/issues
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.3.2
