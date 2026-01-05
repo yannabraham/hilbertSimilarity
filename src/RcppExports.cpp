@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // hilbertMapping
 NumericVector hilbertMapping(NumericMatrix x, int bits);
 RcppExport SEXP _hilbertSimilarity_hilbertMapping(SEXP xSEXP, SEXP bitsSEXP) {
