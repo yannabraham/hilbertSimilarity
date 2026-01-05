@@ -9,7 +9,7 @@
 #' dx <- density(x)
 #' plot(dx)
 #' abline(v=dx$x[localMinima(dx$y)],col=2,lty=2)
-#' @author Tommy \url{http://stackoverflow.com/questions/6836409/finding-local-maxima-and-minima}
+#' @author Tommy \url{https://stackoverflow.com/questions/6836409/finding-local-maxima-and-minima}
 #' @export
 localMinima <- function(x) {
   y <- diff(c(Inf, x)) > 0L

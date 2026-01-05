@@ -1,3 +1,6 @@
+#' @keywords internal
+"_PACKAGE"
+
 #' Hilbert Similarity Index for High Dimensional Data
 #'
 #' This package provides a method to compute similarity between single cell samples in
@@ -8,6 +11,5 @@
 #'
 #' @example examples/example.js.dist.R
 #'
-#' @docType package
-#' @name hilbertSimilarity
+#' @name hilbertSimilarity-package
 NULL
