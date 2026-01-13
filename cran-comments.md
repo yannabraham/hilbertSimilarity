@@ -3,8 +3,7 @@
 This is release 0.4.4 of hilbertSimilarity, where we have made the following changes
 
 * I fixed the C++ version issue
-
-The package has been archived because I failed to push the changes in time.
+* I updated the license to a FOSS 
 
 ## Test environments
 
@@ -16,10 +15,9 @@ The package has been archived because I failed to push the changes in time.
 
 ## R CMD check results
 
-0 errors | 0 warnings | 1 note
+0 errors | 0 warnings | 0 note
 
-* This is a re-submission, following reviewers comments
-* the package uses a non FOSS package license: CC BY-NC-SA 4.0
+* This is a new submission, the package has been archived because I failed to push the changes in time
 
 ## Reverse dependencies
 
