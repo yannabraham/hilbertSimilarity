@@ -1,7 +1,7 @@
 Package: hilbertSimilarity
 Type: Package
 Title: Hilbert Similarity Index for High Dimensional Data
-Version: 0.4.4
+Version: 0.4.4.9000
 Date: 2026-01-05
 Authors@R: c(person('Yann','Abraham',email='yann.abraham@gmail.com',role=c('aut','cre')),
              person('Marilisa','Neri',email='marilisa.neri@gmail.com',role='aut'),
